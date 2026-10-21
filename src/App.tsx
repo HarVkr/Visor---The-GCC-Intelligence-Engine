@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
+import { HeroPage } from './components/HeroPage';
 import { WizardState1 } from './components/WizardState1';
 import { SyncEngineState2 } from './components/SyncEngineState2';
 import { CommandCenterState3 } from './components/CommandCenterState3';
@@ -13,7 +14,7 @@ import { DEFAULT_INPUTS, runVisor, VisorInputs } from './engine/visorEngine';
 import visorData from './data/visorData';
 
 export default function App() {
-  const [currentState, setCurrentState] = useState<number>(1);
+  const [currentState, setCurrentState] = useState<number>(0);
   const [inputs, setInputs] = useState<VisorInputs>({
     ...DEFAULT_INPUTS,
     domain: 'genai_ds',
@@ -72,6 +73,14 @@ export default function App() {
 
       {/* Main Multi-State Workspace */}
       <main className="relative z-10 w-full px-4 lg:px-8 py-5 flex-1 flex flex-col justify-start max-w-[1920px] mx-auto">
+        {currentState === 0 && (
+          <HeroPage
+            onLaunchCockpit={() => setCurrentState(1)}
+            onOpenMemo={() => setIsMemoOpen(true)}
+            result={results || runVisor(inputs, visorData)}
+          />
+        )}
+
         {currentState === 1 && (
           <WizardState1
             inputs={inputs}

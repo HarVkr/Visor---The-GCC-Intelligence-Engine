@@ -18,7 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Brand Zone */}
       <div className="flex items-center gap-4 shrink-0">
         <button
-          onClick={() => onSelectState(1)}
+          onClick={() => onSelectState(0)}
           className="flex items-center gap-2.5 text-left group focus:outline-none"
         >
           <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-slate-900 text-white shadow-sm transition-transform group-hover:scale-105">
@@ -42,6 +42,20 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* State Architecture Switcher */}
       <div className="flex items-center p-1 bg-slate-100 rounded-lg border border-slate-200 shadow-inner">
+        <button
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs transition-all ${
+            currentState === 0
+              ? 'font-semibold bg-white text-slate-900 shadow-sm border border-slate-200'
+              : 'font-medium text-slate-600 hover:text-slate-900'
+          }`}
+          onClick={() => onSelectState(0)}
+        >
+          <span className={`material-symbols-outlined text-[16px] ${currentState === 0 ? 'text-blue-600' : 'text-slate-500'}`}>
+            corporate_fare
+          </span>
+          <span className="font-sans">Overview</span>
+        </button>
+
         <button
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs transition-all ${
             currentState === 1
