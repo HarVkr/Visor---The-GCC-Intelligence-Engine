@@ -41,6 +41,9 @@ The prototype operates on a strict, unidirectional data flow:
 
 The final output is rendered in a high-density, low-text executive dashboard (State 3 of the UI). Here is a detailed breakdown of the dashboard elements as seen in the final output:
 
+<img width="1920" height="2076" alt="screen" src="https://github.com/user-attachments/assets/34c59308-da13-454d-bb9c-ab995717fc41" />
+
+
 ### A. The Executive KPI Ribbon (Top Row)
 *   **Primary Recommendation:** Displays the top-ranked micro-market (e.g., *Hyderabad HITEC City*) with its composite score out of 100 and a robustness indicator across cost stress cases.
 *   **36-Month Net TCO:** Shows the fully loaded mathematical projection (e.g., *$2,784,000*) down to the cost per head/year. It highlights verified state subsidy offsets (e.g., *₹42L in Telangana Subsidies*) subtracted from the total.
