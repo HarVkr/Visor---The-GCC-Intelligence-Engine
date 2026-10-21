@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface GeospatialMapProps {
   topMarketId?: string;
@@ -9,9 +9,19 @@ export const GeospatialMap: React.FC<GeospatialMapProps> = ({
   topMarketId = 'hyd_hitec',
   onSelectMarket,
 }) => {
-  const [selectedCity, setSelectedCity] = useState<string>(
-    topMarketId.includes('pune') ? 'pune' : topMarketId.includes('blr') ? 'bengaluru' : 'hyderabad'
-  );
+  const topCityKey = topMarketId.includes('blr')
+    ? 'bengaluru'
+    : topMarketId.includes('pune')
+    ? 'pune'
+    : topMarketId.includes('chn')
+    ? 'chennai'
+    : 'hyderabad';
+
+  const [selectedCity, setSelectedCity] = useState<string>(topCityKey);
+
+  useEffect(() => {
+    setSelectedCity(topCityKey);
+  }, [topCityKey]);
 
   const cityDetails: Record<string, { cluster: string; coords: string; attrition: string; incentive: string; note: string }> = {
     hyderabad: {
@@ -19,28 +29,28 @@ export const GeospatialMap: React.FC<GeospatialMapProps> = ({
       coords: '17.38° N, 78.48° E (Telangana)',
       attrition: '15.0% (Low commute friction)',
       incentive: '₹42L Verified Rebates',
-      note: 'Optimal rank based on talent depth & lowest attrition drag',
+      note: 'Optimal balance of senior tech depth and high net cost efficiency',
     },
     bengaluru: {
       cluster: 'Outer Ring Road (Bellandur-Marathahalli)',
       coords: '12.97° N, 77.59° E (Karnataka)',
       attrition: '22.4% (Highest drag on ORR)',
       incentive: 'KA GCC Policy 2024-29',
-      note: 'Deepest specialized GenAI talent, higher compensation premium',
+      note: 'Deepest specialized GenAI and platform talent with Tier-1 density',
     },
     pune: {
       cluster: 'Kharadi / EON Free Zone (East Corridor)',
       coords: '18.52° N, 73.85° E (Maharashtra)',
       attrition: '16.5% (Steady East corridor)',
       incentive: 'MH GCC Payroll Subsidy',
-      note: 'North-West arbitrage leader; turns dominant at >85 steady seats',
+      note: 'North-West cost arbitrage leader; dominant efficiency at scale',
     },
     chennai: {
       cluster: 'Old Mahabalipuram Road (OMR IT Corridor)',
       coords: '13.08° N, 80.27° E (Tamil Nadu)',
       attrition: '14.2% (Coastal IT Corridor)',
       incentive: 'TN GCC One Single Window',
-      note: 'Established manufacturing & cloud engineering hub',
+      note: 'Established enterprise systems and automotive engineering hub',
     },
   };
 
@@ -108,105 +118,139 @@ export const GeospatialMap: React.FC<GeospatialMapProps> = ({
           <text fill="#CBD5E1" fontFamily="'JetBrains Mono', monospace" fontSize="9" fontWeight="600" x="380" y="210">BAY OF BENGAL</text>
 
           {/* Strategic Tech Corridor Infrastructure Bridges */}
-          {/* Pune to Hyderabad (NH 65) */}
           <line stroke="#94A3B8" strokeDasharray="4 4" strokeWidth="1.5" x1="150" x2="280" y1="110" y2="175" />
-          {/* Hyderabad to Bengaluru (NH 44) */}
           <line stroke="#94A3B8" strokeDasharray="4 4" strokeWidth="1.5" x1="280" x2="265" y1="175" y2="295" />
-          {/* Pune to Bengaluru (NH 48) */}
           <line stroke="#94A3B8" strokeDasharray="4 4" strokeWidth="1.5" x1="150" x2="265" y1="110" y2="295" />
-          {/* Bengaluru to Chennai */}
           <line stroke="#CBD5E1" strokeDasharray="3 3" strokeWidth="1" x1="265" x2="360" y1="295" y2="290" />
 
           {/* ============================================================== */}
           {/* 1. PUNE KHARADI NODE (NORTH-WEST: Upper-Left of Hyderabad)     */}
-          {/* Lat: 18.52° N (Higher up), Long: 73.85° E (Further left)       */}
           {/* ============================================================== */}
           <g
             className="cursor-pointer group transition-transform"
             onClick={() => handleCityClick('pune', 'pune_kharadi')}
           >
-            <circle
-              cx="150"
-              cy="110"
-              r={selectedCity === 'pune' ? '32' : '26'}
-              fill={selectedCity === 'pune' ? '#EFF6FF' : '#F1F5F9'}
-              stroke={selectedCity === 'pune' ? '#2563EB' : '#94A3B8'}
-              strokeDasharray={selectedCity === 'pune' ? 'none' : '3 3'}
-              strokeWidth={selectedCity === 'pune' ? '2' : '1'}
-            />
-            <circle cx="150" cy="110" r="5" fill={selectedCity === 'pune' ? '#2563EB' : '#64748B'} />
-            <text fill="#1E293B" fontFamily="'Plus Jakarta Sans', sans-serif" fontSize="11" fontWeight="700" textAnchor="middle" x="150" y="86">
-              Pune (Kharadi)
-            </text>
-            <text fill="#64748B" fontFamily="'JetBrains Mono', monospace" fontSize="9" textAnchor="middle" x="150" y="132">
-              ₹12.5k/desk • 18.5°N (NW)
-            </text>
+            {topCityKey === 'pune' ? (
+              <>
+                <circle cx="150" cy="110" r={selectedCity === 'pune' ? '50' : '44'} fill="#EFF6FF" stroke="#BFDBFE" strokeWidth="1.5" />
+                <circle cx="150" cy="110" r="24" fill="#DBEAFE" stroke="#2563EB" strokeDasharray="3 2" strokeWidth="1.5" />
+                <circle cx="150" cy="110" r="7" fill="#2563EB" />
+                <circle cx="150" cy="110" r="3" fill="#FFFFFF" />
+                <text fill="#1D4ED8" fontFamily="'Plus Jakarta Sans', sans-serif" fontSize="12" fontWeight="800" textAnchor="middle" x="150" y="82">
+                  ★ Pune (Kharadi)
+                </text>
+                <text fill="#059669" fontFamily="'JetBrains Mono', monospace" fontSize="10" fontWeight="700" textAnchor="middle" x="150" y="148">
+                  RECOMMENDED #1 (18.5°N)
+                </text>
+              </>
+            ) : (
+              <>
+                <circle
+                  cx="150"
+                  cy="110"
+                  r={selectedCity === 'pune' ? '32' : '26'}
+                  fill={selectedCity === 'pune' ? '#EFF6FF' : '#F1F5F9'}
+                  stroke={selectedCity === 'pune' ? '#2563EB' : '#94A3B8'}
+                  strokeDasharray={selectedCity === 'pune' ? 'none' : '3 3'}
+                  strokeWidth={selectedCity === 'pune' ? '2' : '1'}
+                />
+                <circle cx="150" cy="110" r="5" fill={selectedCity === 'pune' ? '#2563EB' : '#64748B'} />
+                <text fill="#1E293B" fontFamily="'Plus Jakarta Sans', sans-serif" fontSize="11" fontWeight="700" textAnchor="middle" x="150" y="86">
+                  Pune (Kharadi)
+                </text>
+                <text fill="#64748B" fontFamily="'JetBrains Mono', monospace" fontSize="9" textAnchor="middle" x="150" y="132">
+                  ₹12.5k/desk • 18.5°N (NW)
+                </text>
+              </>
+            )}
           </g>
 
           {/* ============================================================== */}
           {/* 2. HYDERABAD HITEC CITY NODE (CENTRAL-EAST: Lower-Right of Pune)*/}
-          {/* Lat: 17.38° N, Long: 78.48° E                                  */}
           {/* ============================================================== */}
           <g
             className="cursor-pointer group transition-transform"
             onClick={() => handleCityClick('hyderabad', 'hyd_hitec')}
           >
-            <circle
-              cx="280"
-              cy="175"
-              r={selectedCity === 'hyderabad' ? '50' : '44'}
-              fill="#EFF6FF"
-              stroke="#BFDBFE"
-              strokeWidth="1.5"
-            />
-            <circle
-              cx="280"
-              cy="175"
-              r="24"
-              fill="#DBEAFE"
-              stroke="#2563EB"
-              strokeDasharray="3 2"
-              strokeWidth="1.5"
-            />
-            <circle cx="280" cy="175" r="7" fill="#2563EB" />
-            <circle cx="280" cy="175" r="3" fill="#FFFFFF" />
-            <text fill="#1D4ED8" fontFamily="'Plus Jakarta Sans', sans-serif" fontSize="12" fontWeight="800" textAnchor="middle" x="280" y="146">
-              ★ Hyderabad (HITEC)
-            </text>
-            <text fill="#059669" fontFamily="'JetBrains Mono', monospace" fontSize="10" fontWeight="700" textAnchor="middle" x="280" y="214">
-              RECOMMENDED #1 (17.4°N)
-            </text>
+            {topCityKey === 'hyderabad' ? (
+              <>
+                <circle cx="280" cy="175" r={selectedCity === 'hyderabad' ? '50' : '44'} fill="#EFF6FF" stroke="#BFDBFE" strokeWidth="1.5" />
+                <circle cx="280" cy="175" r="24" fill="#DBEAFE" stroke="#2563EB" strokeDasharray="3 2" strokeWidth="1.5" />
+                <circle cx="280" cy="175" r="7" fill="#2563EB" />
+                <circle cx="280" cy="175" r="3" fill="#FFFFFF" />
+                <text fill="#1D4ED8" fontFamily="'Plus Jakarta Sans', sans-serif" fontSize="12" fontWeight="800" textAnchor="middle" x="280" y="146">
+                  ★ Hyderabad (HITEC)
+                </text>
+                <text fill="#059669" fontFamily="'JetBrains Mono', monospace" fontSize="10" fontWeight="700" textAnchor="middle" x="280" y="214">
+                  RECOMMENDED #1 (17.4°N)
+                </text>
+              </>
+            ) : (
+              <>
+                <circle
+                  cx="280"
+                  cy="175"
+                  r={selectedCity === 'hyderabad' ? '32' : '26'}
+                  fill={selectedCity === 'hyderabad' ? '#EFF6FF' : '#F1F5F9'}
+                  stroke={selectedCity === 'hyderabad' ? '#2563EB' : '#94A3B8'}
+                  strokeDasharray={selectedCity === 'hyderabad' ? 'none' : '3 3'}
+                  strokeWidth={selectedCity === 'hyderabad' ? '2' : '1'}
+                />
+                <circle cx="280" cy="175" r="5" fill={selectedCity === 'hyderabad' ? '#2563EB' : '#64748B'} />
+                <text fill="#1E293B" fontFamily="'Plus Jakarta Sans', sans-serif" fontSize="11" fontWeight="700" textAnchor="middle" x="280" y="152">
+                  Hyderabad (HITEC)
+                </text>
+                <text fill="#64748B" fontFamily="'JetBrains Mono', monospace" fontSize="9" textAnchor="middle" x="280" y="198">
+                  ₹16.2k/desk • 17.4°N
+                </text>
+              </>
+            )}
           </g>
 
           {/* ============================================================== */}
           {/* 3. BENGALURU ORR NODE (SOUTH: Directly South of Hyderabad)     */}
-          {/* Lat: 12.97° N, Long: 77.59° E                                  */}
           {/* ============================================================== */}
           <g
             className="cursor-pointer group transition-transform"
             onClick={() => handleCityClick('bengaluru', 'blr_orr')}
           >
-            <circle
-              cx="265"
-              cy="295"
-              r={selectedCity === 'bengaluru' ? '36' : '30'}
-              fill={selectedCity === 'bengaluru' ? '#EFF6FF' : '#F1F5F9'}
-              stroke={selectedCity === 'bengaluru' ? '#2563EB' : '#94A3B8'}
-              strokeDasharray={selectedCity === 'bengaluru' ? 'none' : '3 3'}
-              strokeWidth={selectedCity === 'bengaluru' ? '2' : '1'}
-            />
-            <circle cx="265" cy="295" r="5" fill={selectedCity === 'bengaluru' ? '#2563EB' : '#475569'} />
-            <text fill="#1E293B" fontFamily="'Plus Jakarta Sans', sans-serif" fontSize="11" fontWeight="700" textAnchor="middle" x="265" y="270">
-              Bengaluru (ORR)
-            </text>
-            <text fill="#64748B" fontFamily="'JetBrains Mono', monospace" fontSize="9" textAnchor="middle" x="265" y="322">
-              ₹17.5k/desk • 13.0°N (South)
-            </text>
+            {topCityKey === 'bengaluru' ? (
+              <>
+                <circle cx="265" cy="295" r={selectedCity === 'bengaluru' ? '50' : '44'} fill="#EFF6FF" stroke="#BFDBFE" strokeWidth="1.5" />
+                <circle cx="265" cy="295" r="24" fill="#DBEAFE" stroke="#2563EB" strokeDasharray="3 2" strokeWidth="1.5" />
+                <circle cx="265" cy="295" r="7" fill="#2563EB" />
+                <circle cx="265" cy="295" r="3" fill="#FFFFFF" />
+                <text fill="#1D4ED8" fontFamily="'Plus Jakarta Sans', sans-serif" fontSize="12" fontWeight="800" textAnchor="middle" x="265" y="266">
+                  ★ Bengaluru (ORR)
+                </text>
+                <text fill="#059669" fontFamily="'JetBrains Mono', monospace" fontSize="10" fontWeight="700" textAnchor="middle" x="265" y="334">
+                  RECOMMENDED #1 (13.0°N)
+                </text>
+              </>
+            ) : (
+              <>
+                <circle
+                  cx="265"
+                  cy="295"
+                  r={selectedCity === 'bengaluru' ? '36' : '30'}
+                  fill={selectedCity === 'bengaluru' ? '#EFF6FF' : '#F1F5F9'}
+                  stroke={selectedCity === 'bengaluru' ? '#2563EB' : '#94A3B8'}
+                  strokeDasharray={selectedCity === 'bengaluru' ? 'none' : '3 3'}
+                  strokeWidth={selectedCity === 'bengaluru' ? '2' : '1'}
+                />
+                <circle cx="265" cy="295" r="5" fill={selectedCity === 'bengaluru' ? '#2563EB' : '#475569'} />
+                <text fill="#1E293B" fontFamily="'Plus Jakarta Sans', sans-serif" fontSize="11" fontWeight="700" textAnchor="middle" x="265" y="270">
+                  Bengaluru (ORR)
+                </text>
+                <text fill="#64748B" fontFamily="'JetBrains Mono', monospace" fontSize="9" textAnchor="middle" x="265" y="322">
+                  ₹21.5k/desk • 13.0°N (South)
+                </text>
+              </>
+            )}
           </g>
 
           {/* ============================================================== */}
           {/* 4. CHENNAI OMR NODE (SOUTH-EAST COAST)                         */}
-          {/* Lat: 13.08° N, Long: 80.27° E                                  */}
           {/* ============================================================== */}
           <g
             className="cursor-pointer group transition-transform"
