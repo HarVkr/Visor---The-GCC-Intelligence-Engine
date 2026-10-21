@@ -1,0 +1,6 @@
+{
+  "name": "VISOR - GCC Intelligence Platform",
+  "description": "Institutional intelligence platform for quantitative GCC location decisions, talent ramp modeling, and multi-market optimization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

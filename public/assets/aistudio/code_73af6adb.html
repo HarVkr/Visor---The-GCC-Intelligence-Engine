@@ -1,0 +1,1494 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="web_dashboard" name="shell-type">
+<title>VISOR • Global Capability Centre Intelligence Cockpit</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  @layer base {
+    html, body { margin:0; padding:0; background-color: #F8FAFC; color: #0F172A; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #F1F5F9; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+  }
+  .card-pitch {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+  }
+  .card-pitch-elevated {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  }
+  .dot-grid {
+    background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        slate: {
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',
+          600: '#475569',
+          700: '#334155',
+          800: '#1E293B',
+          900: '#0F172A'
+        },
+        navy: {
+          900: '#0A1128',
+          800: '#0F172A',
+          700: '#1E293B'
+        },
+        brand: {
+          50: '#EFF6FF',
+          100: '#DBEAFE',
+          200: '#BFDBFE',
+          500: '#3B82F6',
+          600: '#2563EB',
+          700: '#1D4ED8'
+        },
+        accent: {
+          emerald: '#059669',
+          amber: '#D97706',
+          rose: '#E11D48'
+        }
+      },
+      fontFamily: {
+        sans: ["'Plus Jakarta Sans'", "Inter", "sans-serif"],
+        mono: ["'JetBrains Mono'", "monospace"],
+        body: ["Inter", "sans-serif"]
+      }
+    }
+  }
+};
+</script>
+</head>
+<body class="bg-slate-50 font-sans antialiased text-slate-800 min-h-screen relative selection:bg-brand-100 selection:text-brand-700 flex flex-col justify-between">
+<!-- ================= TOP INSTITUTIONAL CHROME ================= -->
+<header class="sticky top-0 left-0 right-0 z-50 h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 lg:px-8 flex items-center justify-between gap-4 transition-colors">
+<div class="flex items-center gap-4 flex-shrink-0">
+<div class="flex items-center gap-2.5 cursor-pointer" onclick="switchState(1)">
+<div class="flex items-center justify-center w-9 h-9 rounded-lg bg-navy-800 text-white shadow-sm">
+<span class="material-symbols-outlined text-[20px]">insights</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-sans text-base font-extrabold tracking-tight text-navy-800">VISOR</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-slate-100 text-slate-700 border border-slate-200">v2.4 KERNEL</span>
+</div>
+<span class="text-[10px] text-slate-500 font-medium tracking-wide hidden sm:block uppercase">Global Capability Centre Intelligence Cockpit</span>
+</div>
+</div>
+</div>
+<!-- State Architecture Switcher (Multi-State Controller) -->
+<div class="flex items-center p-1 bg-slate-100 rounded-lg border border-slate-200 shadow-inner">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold bg-white text-navy-800 shadow-sm border border-slate-200 transition-all" id="navState1" onclick="switchState(1)">
+<span class="material-symbols-outlined text-[16px] text-brand-600">tune</span>
+<span class="hidden md:inline">1. Intake</span> Launchpad
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900 transition-all" id="navState2" onclick="switchState(2)">
+<span class="material-symbols-outlined text-[16px] text-slate-500">sync</span>
+<span class="hidden md:inline">2. Engine</span> Sync
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900 transition-all" id="navState3" onclick="switchState(3)">
+<span class="material-symbols-outlined text-[16px] text-slate-500">dashboard</span>
+<span class="hidden md:inline">3. Visual</span> Command Center
+</button>
+</div>
+<!-- Action Hub & Quick Switches -->
+<div class="flex items-center gap-3">
+<div class="hidden xl:flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-slate-100 border border-slate-200 text-xs font-mono">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-slate-500">FX:</span>
+<span class="text-slate-800 font-semibold">1 USD = ₹83.50</span>
+</div>
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-navy-800 hover:bg-navy-900 text-white font-medium text-xs tracking-tight shadow-sm hover:shadow transition-all" onclick="toggleMemoModal()">
+<span class="material-symbols-outlined text-[16px]">description</span>
+<span class="">Export Board Memo</span>
+</button>
+</div>
+</header>
+<!-- ================= MAIN MULTI-STATE WORKSPACE ================= -->
+<main class="relative z-10 w-full px-4 lg:px-8 py-5 flex-1 flex flex-col justify-start max-w-[1920px] mx-auto">
+<!-- ================= STATE 1: STRATEGIC LAUNCHPAD WIZARD (DEFAULT VIEW) ================= -->
+<section class="flex flex-col items-center justify-center py-6 lg:py-8 w-full" id="state1Container">
+<div class="w-full max-w-6xl xl:max-w-7xl card-pitch rounded-2xl p-8 sm:p-10 lg:p-12 flex flex-col shadow-md border border-slate-200 transition-all duration-300">
+<!-- Stepper Header Bar -->
+<div class="border-b border-slate-200 pb-5">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-bold tracking-wider uppercase bg-brand-50 text-brand-700 border border-brand-200">State 1 • Intake Launchpad</span>
+<span class="text-xs text-slate-400 font-mono">Sequential Architecture Wizard</span>
+</div>
+<div class="text-xs font-mono text-slate-500">
+        Step <span class="font-bold text-navy-800" id="stepCounterDisplay">4</span> of 4
+      </div>
+</div>
+<!-- Step progress indicators -->
+<div class="grid grid-cols-4 gap-2 sm:gap-3">
+<!-- Indicator 1 -->
+<button class="group flex flex-col gap-1.5 text-left focus:outline-none" id="stepPill1" onclick="goToWizardStep(1)">
+<div class="h-1.5 w-full rounded-full bg-emerald-600 transition-all"></div>
+<div class="flex items-center gap-1.5">
+<span class="w-4 h-4 rounded-full bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center">✓</span>
+<span class="text-[11px] font-semibold text-slate-700 truncate">Domain &amp; Roles</span>
+</div>
+</button>
+<!-- Indicator 2 -->
+<button class="group flex flex-col gap-1.5 text-left focus:outline-none" id="stepPill2" onclick="goToWizardStep(2)">
+<div class="h-1.5 w-full rounded-full bg-emerald-600 transition-all"></div>
+<div class="flex items-center gap-1.5">
+<span class="w-4 h-4 rounded-full bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center">✓</span>
+<span class="text-[11px] font-semibold text-slate-700 truncate">Talent Scale</span>
+</div>
+</button>
+<!-- Indicator 3 -->
+<button class="group flex flex-col gap-1.5 text-left focus:outline-none" id="stepPill3" onclick="goToWizardStep(3)">
+<div class="h-1.5 w-full rounded-full bg-emerald-600 transition-all"></div>
+<div class="flex items-center gap-1.5">
+<span class="w-4 h-4 rounded-full bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center">✓</span>
+<span class="text-[11px] font-semibold text-slate-700 truncate">Priorities</span>
+</div>
+</button>
+<!-- Indicator 4 -->
+<button class="group flex flex-col gap-1.5 text-left focus:outline-none" id="stepPill4" onclick="goToWizardStep(4)">
+<div class="h-1.5 w-full rounded-full bg-brand-600 transition-all"></div>
+<div class="flex items-center gap-1.5">
+<span class="w-4 h-4 rounded-full bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center">4</span>
+<span class="text-[11px] font-bold text-navy-800 truncate">Real Estate &amp; Gov</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Wizard Dynamic Step Content Container -->
+<div class="py-6 min-h-[380px] flex flex-col justify-center">
+<!-- ================= STEP 1: DOMAIN ARCHITECTURE & SPECIALIZED ROLES ================= -->
+<div class="flex-col gap-5 hidden" id="wizardStep1">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<h2 class="text-lg font-bold text-navy-800">Domain Architecture &amp; Specialized Capability Selection</h2>
+<p class="text-xs text-slate-500">Select target engineering practices and specialized roles required for the GCC talent hub</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs px-2.5 py-1 rounded-md bg-brand-50 border border-brand-200 text-brand-700 font-mono font-medium">
+<span id="selectedRolesCount" class="">1</span> Selected
+          </span>
+<button class="text-xs text-brand-600 hover:text-brand-800 font-medium underline" onclick="selectAllRoles()">Select Recommended</button>
+</div>
+</div>
+<!-- Quick Category Filter Tabs -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+<button class="role-cat-btn px-3 py-1 rounded-full bg-navy-800 text-white font-medium shadow-xs" data-cat="all" onclick="filterRoles('all')">All Disciplines</button>
+<button class="role-cat-btn px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium" data-cat="ai" onclick="filterRoles('ai')">AI / GenAI &amp; Data</button>
+<button class="role-cat-btn px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium" data-cat="cloud" onclick="filterRoles('cloud')">Cloud &amp; Platform</button>
+<button class="role-cat-btn px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium" data-cat="enterprise" onclick="filterRoles('enterprise')">Enterprise &amp; Cyber</button>
+</div>
+<!-- Specialized Role Interactive Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 max-h-[420px] overflow-y-auto pr-1" id="rolesGrid"><!-- Role 1 -->
+<label class="role-item p-4 sm:p-5 rounded-xl border-2 border-brand-600 bg-brand-50/50 flex items-start gap-3.5 cursor-pointer hover:border-brand-500 transition-all" data-category="ai">
+<input checked="" class="accent-brand-600 h-4 w-4 mt-0.5 rounded border-slate-300" onchange="toggleRoleSelect(this)" type="checkbox">
+<div class="flex-1">
+<div class="flex items-center justify-between gap-1.5 flex-wrap">
+<span class="text-sm font-bold text-navy-800">Generative AI &amp; LLM Systems</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-brand-200 text-brand-800">High Demand</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 leading-relaxed">Prompt fine-tuning, RAG frameworks, model evaluation &amp; inference clusters.</p>
+</div>
+</label>
+<!-- Role 2 -->
+<label class="role-item p-4 sm:p-5 rounded-xl border-2 border-brand-600 bg-brand-50/50 flex items-start gap-3.5 cursor-pointer hover:border-brand-500 transition-all" data-category="ai">
+<input checked="" class="accent-brand-600 h-4 w-4 mt-0.5 rounded border-slate-300" onchange="toggleRoleSelect(this)" type="checkbox">
+<div class="flex-1">
+<div class="flex items-center justify-between gap-1.5 flex-wrap">
+<span class="text-sm font-bold text-navy-800">Data Engineering &amp; Analytics</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 leading-relaxed">Spark, Snowflake, dbt, real-time streaming pipelines &amp; metadata governance.</p>
+</div>
+</label>
+<!-- Role 3 -->
+<label class="role-item p-4 sm:p-5 rounded-xl border-2 border-brand-600 bg-brand-50/50 flex items-start gap-3.5 cursor-pointer hover:border-brand-500 transition-all" data-category="cloud">
+<input checked="" class="accent-brand-600 h-4 w-4 mt-0.5 rounded border-slate-300" onchange="toggleRoleSelect(this)" type="checkbox">
+<div class="flex-1">
+<div class="flex items-center justify-between gap-1.5 flex-wrap">
+<span class="text-sm font-bold text-navy-800">Full-Stack Cloud Engineering</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 leading-relaxed">Distributed microservices, React/Next.js, Go/Node, event-driven backends.</p>
+</div>
+</label>
+<!-- Role 4 -->
+<label class="role-item p-4 sm:p-5 rounded-xl border-2 border-brand-600 bg-brand-50/50 flex items-start gap-3.5 cursor-pointer hover:border-brand-500 transition-all" data-category="cloud">
+<input checked="" class="accent-brand-600 h-4 w-4 mt-0.5 rounded border-slate-300" onchange="toggleRoleSelect(this)" type="checkbox">
+<div class="flex-1">
+<div class="flex items-center justify-between gap-1.5 flex-wrap">
+<span class="text-sm font-bold text-navy-800">Platform &amp; DevSecOps</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 leading-relaxed">Kubernetes mesh, Terraform IaC, automated CI/CD &amp; zero-trust pipelines.</p>
+</div>
+</label>
+<!-- Role 5 -->
+<label class="role-item p-4 sm:p-5 rounded-xl border-2 border-brand-600 bg-brand-50/50 flex items-start gap-3.5 cursor-pointer hover:border-brand-500 transition-all" data-category="enterprise">
+<input checked="" class="accent-brand-600 h-4 w-4 mt-0.5 rounded border-slate-300" onchange="toggleRoleSelect(this)" type="checkbox">
+<div class="flex-1">
+<div class="flex items-center justify-between gap-1.5 flex-wrap">
+<span class="text-sm font-bold text-navy-800">Cybersecurity &amp; InfoSec</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800">SOC2 Type II</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 leading-relaxed">Threat detection, IAM automation, cryptographic HSMs &amp; compliance telemetry.</p>
+</div>
+</label>
+<!-- Role 6 -->
+<label class="role-item p-4 sm:p-5 rounded-xl border border-slate-200 bg-white flex items-start gap-3.5 cursor-pointer hover:border-brand-300 transition-all" data-category="enterprise">
+<input class="accent-brand-600 h-4 w-4 mt-0.5 rounded border-slate-300" onchange="toggleRoleSelect(this)" type="checkbox">
+<div class="flex-1">
+<div class="flex items-center justify-between gap-1.5 flex-wrap">
+<span class="text-sm font-bold text-navy-800">Enterprise SAP / S4 HANA</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 leading-relaxed">ABAP on HANA, supply chain modules, finance ledger reconciliation cores.</p>
+</div>
+</label>
+<!-- Role 7 -->
+<label class="role-item p-4 sm:p-5 rounded-xl border border-slate-200 bg-white flex items-start gap-3.5 cursor-pointer hover:border-brand-300 transition-all" data-category="cloud">
+<input class="accent-brand-600 h-4 w-4 mt-0.5 rounded border-slate-300" onchange="toggleRoleSelect(this)" type="checkbox">
+<div class="flex-1">
+<div class="flex items-center justify-between gap-1.5 flex-wrap">
+<span class="text-sm font-bold text-navy-800">Embedded Systems &amp; IoT</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 leading-relaxed">Edge firmware, C/Rust embedded, telemetry buffering &amp; industrial gateways.</p>
+</div>
+</label>
+<!-- Role 8 -->
+<label class="role-item p-4 sm:p-5 rounded-xl border border-slate-200 bg-white flex items-start gap-3.5 cursor-pointer hover:border-brand-300 transition-all" data-category="ai">
+<input class="accent-brand-600 h-4 w-4 mt-0.5 rounded border-slate-300" onchange="toggleRoleSelect(this)" type="checkbox">
+<div class="flex-1">
+<div class="flex items-center justify-between gap-1.5 flex-wrap">
+<span class="text-sm font-bold text-navy-800">Quantitative Modeling &amp; Risk</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 leading-relaxed">Stochastic pricing, risk simulation, latency arbitrage &amp; algorithmic tooling.</p>
+</div>
+</label>
+<!-- Role 9 -->
+<label class="role-item p-4 sm:p-5 rounded-xl border border-slate-200 bg-white flex items-start gap-3.5 cursor-pointer hover:border-brand-300 transition-all" data-category="cloud">
+<input class="accent-brand-600 h-4 w-4 mt-0.5 rounded border-slate-300" onchange="toggleRoleSelect(this)" type="checkbox">
+<div class="flex-1">
+<div class="flex items-center justify-between gap-1.5 flex-wrap">
+<span class="text-sm font-bold text-navy-800">Distributed Storage &amp; Database SRE</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 leading-relaxed">Cassandra, CockroachDB, multi-region replication and 99.999% SLA uptime.</p>
+</div>
+</label></div>
+</div>
+<!-- ================= STEP 2: TALENT SCALE & SENIORITY RAMP ================= -->
+<div class="flex-col gap-5 hidden" id="wizardStep2">
+<div>
+<h2 class="text-lg font-bold text-navy-800">Talent Ramp &amp; Seniority Distribution Calibration</h2>
+<p class="text-xs text-slate-500">Model headcount scale from Year 1 inception through Year 3 steady-state maturation</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- H1 Slider Card -->
+<div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col gap-2.5">
+<div class="flex justify-between items-center font-mono">
+<span class="text-xs font-sans text-slate-700 font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-brand-600">group_add</span>
+              Year 1 Pod Inception (H1)
+            </span>
+<span class="text-base font-bold text-navy-800 px-2 py-0.5 rounded bg-white border border-slate-200" id="s1_h1Val">40 Seats</span>
+</div>
+<input class="w-full accent-brand-600 bg-slate-200 h-2 rounded cursor-pointer mt-1" max="250" min="10" oninput="updateSliders(this.value, null)" step="5" type="range" value="40">
+<div class="flex justify-between text-[11px] text-slate-500">
+<span class="">Min 10</span>
+<span class="text-emerald-600 font-medium">+3.3 hires/mo cadence</span>
+<span class="">250 Max</span>
+</div>
+</div>
+<!-- H3 Slider Card -->
+<div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col gap-2.5">
+<div class="flex justify-between items-center font-mono">
+<span class="text-xs font-sans text-slate-700 font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-brand-600">trending_up</span>
+              Year 3 Steady-State (H3)
+            </span>
+<span class="text-base font-bold text-brand-600 px-2 py-0.5 rounded bg-white border border-slate-200" id="s1_h3Val">135 Seats</span>
+</div>
+<input class="w-full accent-brand-600 bg-slate-200 h-2 rounded cursor-pointer mt-1" max="250" min="40" oninput="updateSliders(null, this.value)" step="5" type="range" value="100">
+<div class="flex justify-between text-[11px] text-slate-500">
+<span class="">H1 Base (40)</span>
+<span class="text-brand-600 font-medium">+2.5 hires/mo cadence</span>
+<span class="">250 Max</span>
+</div>
+</div>
+</div>
+<!-- Seniority Distribution Bar Section -->
+<div class="p-4 rounded-xl border border-slate-200 bg-white flex flex-col gap-3">
+<div class="flex items-center justify-between text-xs font-semibold text-slate-700">
+<span class="">Seniority Mix Architecture (100% Target Pool Allocation)</span>
+<span class="text-[11px] font-mono text-brand-600">Optimal GCC Blend</span>
+</div>
+<div class="h-3 w-full bg-slate-100 rounded-full overflow-hidden flex border border-slate-200">
+<div class="bg-slate-400 h-full" style="width: 35%;" title="Junior 35%"></div>
+<div class="bg-brand-600 h-full" style="width: 45%;" title="Mid-Level 45%"></div>
+<div class="bg-navy-800 h-full" style="width: 20%;" title="Senior Principal 20%"></div>
+</div>
+<div class="grid grid-cols-3 gap-2 text-xs pt-1">
+<div class="p-2 rounded-lg bg-slate-50 border border-slate-200 flex flex-col">
+<span class="text-[11px] text-slate-500 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-slate-400"></span>Junior Engineers
+            </span>
+<span class="text-sm font-bold text-navy-800 font-mono mt-0.5">35% (14 Seats)</span>
+</div>
+<div class="p-2 rounded-lg bg-blue-50/60 border border-brand-200 flex flex-col">
+<span class="text-[11px] text-brand-700 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-brand-600"></span>Mid-Level Seniors
+            </span>
+<span class="text-sm font-bold text-brand-700 font-mono mt-0.5">45% (18 Seats)</span>
+</div>
+<div class="p-2 rounded-lg bg-slate-50 border border-slate-200 flex flex-col">
+<span class="text-[11px] text-slate-500 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-navy-800"></span>Principal &amp; Staff Leads
+            </span>
+<span class="text-sm font-bold text-navy-800 font-mono mt-0.5">20% (8 Seats)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ================= STEP 3: STRATEGIC OPTIMIZATION & PRIORITIES ================= -->
+<div class="flex-col gap-5 hidden" id="wizardStep3">
+<div>
+<h2 class="text-lg font-bold text-navy-800">Strategic Optimization Goal &amp; Objective Function</h2>
+<p class="text-xs text-slate-500">Configure how the VISOR optimization engine weights talent depth versus financial efficiency</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+<!-- Goal 1 -->
+<label class="p-4 rounded-xl border-2 border-brand-600 bg-brand-50/50 flex flex-col gap-2 cursor-pointer shadow-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<input checked="" class="accent-brand-600" name="opt_goal" type="radio">
+<span class="text-sm font-bold text-navy-800">Balanced Index (Recommended)</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-brand-100 text-brand-700">DEFAULT</span>
+</div>
+<p class="text-xs text-slate-600 leading-relaxed">
+            Multi-objective Pareto optimization balancing senior talent availability (40%), 3-year net TCO (35%), and setup acceleration (25%).
+          </p>
+</label>
+<!-- Goal 2 -->
+<label class="p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 flex flex-col gap-2 cursor-pointer transition-all">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<input class="accent-brand-600" name="opt_goal" type="radio">
+<span class="text-sm font-bold text-navy-800">Speed to Market &amp; First Pod</span>
+</div>
+<span class="text-[10px] font-semibold text-slate-500 font-mono">3.8 Mo Target</span>
+</div>
+<p class="text-xs text-slate-500 leading-relaxed">
+            Minimizes legal incorporation cycle by prioritizing turnkey flex space, managed employer of record (EOR), and rapid candidate conversion.
+          </p>
+</label>
+<!-- Goal 3 -->
+<label class="p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 flex flex-col gap-2 cursor-pointer transition-all">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<input class="accent-brand-600" name="opt_goal" type="radio">
+<span class="text-sm font-bold text-navy-800">Lowest 3-Year TCO Arbitrage</span>
+</div>
+<span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-mono">&gt;65% Savings</span>
+</div>
+<p class="text-xs text-slate-500 leading-relaxed">
+            Maximizes cost arbitrage and state incentives (EPF subsidies, tax rebates, low flex seat lease rates) to minimize total capital outflow.
+          </p>
+</label>
+<!-- Goal 4 -->
+<label class="p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 flex flex-col gap-2 cursor-pointer transition-all">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<input class="accent-brand-600" name="opt_goal" type="radio">
+<span class="text-sm font-bold text-navy-800">Elite Talent Depth &amp; Retention</span>
+</div>
+<span class="text-[10px] font-semibold text-slate-500 font-mono">Tier-1 Cohorts</span>
+</div>
+<p class="text-xs text-slate-500 leading-relaxed">
+            Prioritizes cities with deepest specialization in frontier GenAI &amp; distributed systems, accepting slightly higher compensation premiums.
+          </p>
+</label>
+</div>
+</div>
+<!-- ================= STEP 4: REAL ESTATE & GOVERNANCE GUARDS ================= -->
+<div class="flex-col gap-5 flex" id="wizardStep4">
+<div>
+<h2 class="text-lg font-bold text-navy-800">Real Estate Model &amp; Enterprise Governance Constraints</h2>
+<p class="text-xs text-slate-500">Determine physical workspace delivery and compliance thresholds before final optimization execution</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Delivery Model Choice 1 -->
+<label class="p-4 rounded-xl border-2 border-brand-500 bg-brand-50/40 flex items-start gap-3 cursor-pointer">
+<input checked="" class="accent-brand-600 mt-1" name="s1_workspace_wizard" type="radio">
+<div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-navy-800">Turnkey Managed Flex Space</span>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700">ZERO CAPEX</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">45-day pod readiness. Fully serviced, bundled IT/facilities. Ideal for M0-M12 rapid ramp.</p>
+</div>
+</label>
+<!-- Delivery Model Choice 2 -->
+<label class="p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 flex items-start gap-3 cursor-pointer">
+<input class="accent-brand-600 mt-1" name="s1_workspace_wizard" type="radio">
+<div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-navy-800">Traditional Grade-A Lease</span>
+<span class="text-[10px] font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">$180/sq.ft CapEx</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">9-year commercial lease lock-in. 6 months fitout lead time. Direct facilities control.</p>
+</div>
+</label>
+</div>
+<!-- Compliance & Governance Checkboxes -->
+<div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col gap-3">
+<span class="text-xs font-bold uppercase tracking-wider text-slate-600">Enterprise Guardrails &amp; Constraints</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<label class="flex items-center justify-between p-2.5 rounded-lg bg-white border border-slate-200 text-xs text-slate-700 cursor-pointer">
+<span class="font-medium">High IP Sensitivity (Scheduled Captive Novation)</span>
+<input checked="" class="accent-brand-600 h-4 w-4 rounded border-slate-300 ml-2" type="checkbox">
+</label>
+<label class="flex items-center justify-between p-2.5 rounded-lg bg-white border border-slate-200 text-xs text-slate-700 cursor-pointer">
+<span class="font-medium">Regulated Sector (Strict Audit Logs &amp; SOC2)</span>
+<input checked="" class="accent-brand-600 h-4 w-4 rounded border-slate-300 ml-2" type="checkbox">
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Wizard Footer Controls: Single Clear Primary Navigation -->
+<div class="border-t border-slate-200 pt-4 flex items-center justify-between">
+<button class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer" id="wizardBackBtn" onclick="prevWizardStep()">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span class="">Back</span>
+</button>
+<div class="flex items-center gap-2">
+<!-- Step 1-3 Next Button -->
+<button class="px-5 py-2.5 rounded-lg bg-navy-800 hover:bg-navy-900 text-white font-semibold text-xs flex items-center gap-2 shadow-sm transition-all hidden" id="wizardNextBtn" onclick="nextWizardStep()">
+<span class="">Continue to Next Step</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+<!-- Step 4 Final Execution Trigger Button (Hidden until Step 4) -->
+<button class="px-6 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs flex items-center gap-2 shadow-md hover:shadow-lg transition-all" id="wizardExecuteBtn" onclick="simulateRunSync()">
+<span class="">Run VISOR Optimization Engine</span>
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= STATE 2: CONCURRENT SYNCHRONIZATION ENGINE (CENTERED MODAL LOOK) ================= -->
+<section class="flex-col items-center justify-center min-h-[750px] w-full py-6 flex hidden" id="state2Container">
+<div class="card-pitch-elevated w-full max-w-4xl lg:max-w-5xl p-10 lg:p-12 rounded-2xl border border-slate-200 flex flex-col items-center text-center mx-auto my-auto shadow-2xl">
+<!-- Top pulse badge -->
+<div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-medium mb-6">
+<span class="w-2.5 h-2.5 rounded-full bg-brand-600 animate-pulse"></span>
+    SYNCHRONIZING DECISION KERNEL: MONTE CARLO (10,000 RUNS)
+</div>
+<!-- Center Progress Ring -->
+<div class="relative w-44 h-44 mb-6 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
+<circle cx="60" cy="60" fill="none" r="50" stroke="#E2E8F0" stroke-width="8"></circle>
+<circle class="transition-all duration-500 ease-out" cx="60" cy="60" fill="none" id="syncRing" r="50" stroke="#2563EB" stroke-dasharray="314" stroke-dashoffset="40" stroke-linecap="round" stroke-width="8" style="stroke-dashoffset: 0;"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="text-4xl font-extrabold text-navy-800 font-mono tracking-tight" id="syncPercent">100%</span>
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">HARMONIZED</span>
+</div>
+</div>
+<!-- Live Telemetry Stream Terminal -->
+<div class="w-full bg-slate-900 text-slate-100 rounded-xl p-5 font-mono text-left text-xs space-y-2 mb-6 shadow-inner">
+<div class="flex items-center justify-between text-slate-400 pb-2 border-b border-slate-800 text-[11px]">
+<span class="">TELEMETRY SUBSYSTEM STREAM</span>
+<span class="text-emerald-400 flex items-center gap-1 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> INGESTION REAL-TIME
+</span>
+</div>
+<div class="text-slate-300 flex items-center gap-2">
+<span class="text-brand-400 font-bold">[OK]</span> Compiling NASSCOM &amp; JLL Grade-A flex desk rates for Hyderabad (HITEC City)...
+</div>
+<div class="text-slate-300 flex items-center gap-2">
+<span class="text-brand-400 font-bold">[OK]</span> Calculating Bengaluru ORR commute attrition drag factor (22.4% baseline applied)...
+</div>
+<div class="text-slate-300 flex items-center gap-2">
+<span class="text-brand-400 font-bold">[OK]</span> Evaluating Telangana ICT Policy 2021-26 statutory EPF rebate validity: ₹42,00,000 verified.
+</div>
+<div class="text-slate-300 flex items-center gap-2">
+<span class="text-brand-400 font-bold">[OK]</span> Solving legal crossover threshold: H* = 48 heads at Month 9 captive transition.
+</div>
+<div class="text-emerald-400 flex items-center gap-2 font-semibold pt-1">
+<span class="material-symbols-outlined text-[15px]">done_all</span> All 5 strategic dimensions converged. Preparing Command Center.
+</div>
+</div>
+<!-- Direct CTA Button -->
+<button class="px-8 py-3 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center gap-2" onclick="switchState(3)">
+<span class="">Enter Executive Command Center</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- ================= STATE 3: EXECUTIVE VISUAL COMMAND CENTER ================= -->
+<section class="flex-col gap-5 flex hidden" id="state3Container">
+<!-- TOP COMPRESSED CONTROLLER BAR -->
+<div class="card-pitch rounded-xl px-4 py-3 flex flex-wrap items-center justify-between gap-3 bg-white">
+<div class="flex items-center gap-3 flex-wrap">
+<div class="flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 border border-blue-200 text-brand-700 text-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-brand-600"></span>
+      DIRECTIVE: TARGET HYDERABAD (HITEC CITY)
+    </div>
+<div class="flex items-center gap-2.5 text-xs text-slate-600 font-medium">
+<span class="text-slate-400">Score:</span>
+<span class="font-bold text-navy-800 font-mono">87.4 / 100</span>
+<span class="text-slate-300">|</span>
+<span class="text-slate-400">3Y Net TCO:</span>
+<span class="font-bold text-emerald-600 font-mono">$2,784,000</span>
+<span class="text-slate-300">|</span>
+<span class="text-slate-400">Model:</span>
+<span class="text-navy-800 font-semibold">Hybrid EOR → Captive (M9)</span>
+</div>
+</div>
+<div class="flex items-center gap-2.5">
+<div class="flex items-center bg-slate-100 rounded-md p-0.5 border border-slate-200 text-xs font-medium text-slate-700">
+<span class="px-2.5 py-0.5 rounded bg-white text-navy-800 shadow-xs font-semibold">GenAI 40→100 Pod</span>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-medium text-slate-700 transition-all" onclick="switchState(1)">
+<span class="material-symbols-outlined text-[15px] text-brand-600">tune</span>
+      Adjust Inputs (12)
+    </button>
+</div>
+</div>
+<!-- 4 EXECUTIVE KPI PRESENTATION CARDS -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Card 1: Top Recommendation -->
+<div class="card-pitch rounded-xl p-5 border-l-4 border-l-brand-600 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Primary Recommendation</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-brand-700 border border-blue-200">RANK #1</span>
+</div>
+<h2 class="text-xl font-bold text-navy-800 tracking-tight flex items-center gap-1.5">
+        Hyderabad <span class="text-xs font-normal text-slate-500">HITEC City</span>
+</h2>
+<div class="mt-2.5 flex items-baseline gap-2">
+<span class="text-3xl font-extrabold text-navy-800 font-mono">87.4</span>
+<span class="text-xs text-slate-500 font-medium">/ 100 Composite</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="text-slate-500">Robustness:</span>
+<span class="text-emerald-600 font-semibold">High (3/3 Cost Cases)</span>
+</div>
+</div>
+<!-- Card 2: 36-Month Net TCO -->
+<div class="card-pitch rounded-xl p-5 border-l-4 border-l-emerald-500 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-[11px] font-bold tracking-wider text-slate-500 uppercase">36-Month Net TCO</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">-$156K OFFSET</span>
+</div>
+<div class="text-3xl font-extrabold text-navy-800 font-mono tracking-tight">$2,784,000</div>
+<div class="text-xs text-slate-500 mt-1.5">
+        Loaded Cap: <span class="text-slate-800 font-semibold font-mono">$28,400 / head / yr</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="text-slate-500">Telangana Subsidies:</span>
+<span class="text-emerald-600 font-semibold">₹42L Verified Rebates</span>
+</div>
+</div>
+<!-- Card 3: Speed to First Pod -->
+<div class="card-pitch rounded-xl p-5 border-l-4 border-l-slate-700 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Speed to First Team</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">FAST TRACK</span>
+</div>
+<div class="text-3xl font-extrabold text-navy-800 font-mono tracking-tight">3.8 Months</div>
+<div class="text-xs text-slate-500 mt-1.5 font-body">
+        Full Pod Inception (40 heads)
+      </div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="text-slate-500">Captive Incorp Delta:</span>
+<span class="text-brand-600 font-semibold">5.4 Mo Saved vs Pure Sub</span>
+</div>
+</div>
+<!-- Card 4: Operating Model Directive -->
+<div class="card-pitch rounded-xl p-5 border-l-4 border-l-amber-500 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Legal &amp; Setup Directive</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">TRIGGER H*=48</span>
+</div>
+<h2 class="text-lg font-bold text-navy-800 tracking-tight">Hybrid EOR → Captive</h2>
+<div class="text-xs text-slate-500 mt-1.5">
+        Novation trigger: <span class="text-amber-700 font-semibold">Month 9 Cutover</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="text-slate-500">IP Protection:</span>
+<span class="text-slate-800 font-semibold">100% Direct Novation</span>
+</div>
+</div>
+</div>
+<!-- CENTER STAGE: GEOSPATIAL RADAR + 3-CITY SHOWDOWN MATRIX -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-5">
+<!-- LEFT: Geospatial Radar Architectural Map (5 cols on xl) -->
+<div class="xl:col-span-5 card-pitch rounded-xl p-5 flex flex-col justify-between min-h-[500px]">
+<div class="flex items-center justify-between z-10 pb-2 border-b border-slate-100">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-brand-600 text-[20px]">explore</span>
+<span class="text-xs font-bold uppercase tracking-wider text-navy-800">Geospatial Cluster Topology</span>
+</div>
+<span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+        45-Min Isochrone Scan
+      </span>
+</div>
+<!-- Ambient Architectural Map Canvas -->
+<div class="relative w-full h-[350px] my-3 dot-grid rounded-xl border border-slate-200 overflow-hidden bg-slate-50">
+<svg class="w-full h-full" fill="none" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+<!-- Neutral Grid Lines -->
+<line stroke="#E2E8F0" stroke-dasharray="3 3" stroke-width="1" x1="50" x2="50" y1="0" y2="400"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" stroke-width="1" x1="150" x2="150" y1="0" y2="400"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" stroke-width="1" x1="250" x2="250" y1="0" y2="400"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" stroke-width="1" x1="350" x2="350" y1="0" y2="400"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" stroke-width="1" x1="450" x2="450" y1="0" y2="400"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="500" y1="80" y2="80"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="500" y1="180" y2="180"></line>
+<line stroke="#E2E8F0" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="500" y1="280" y2="280"></line>
+<!-- Regional Outlines -->
+<path d="M 60 20 Q 90 90 110 140 T 130 220 T 160 310 L 190 390" fill="none" stroke="#CBD5E1" stroke-dasharray="4 3" stroke-width="2"></path>
+<path d="M 440 100 Q 400 180 370 250 T 320 370" fill="none" stroke="#CBD5E1" stroke-dasharray="4 3" stroke-width="2"></path>
+<!-- Corridor Bridges -->
+<line stroke="#94A3B8" stroke-dasharray="4 4" stroke-width="1.5" x1="240" x2="260" y1="160" y2="280"></line>
+<line stroke="#94A3B8" stroke-dasharray="4 4" stroke-width="1.5" x1="140" x2="240" y1="180" y2="160"></line>
+<!-- PUNE KHARADI NODE -->
+<g class="cursor-pointer group" onclick="highlightCity('pune')">
+<circle cx="140" cy="180" fill="#F1F5F9" r="28" stroke="#94A3B8" stroke-dasharray="3 3" stroke-width="1"></circle>
+<circle cx="140" cy="180" fill="#64748B" r="5"></circle>
+<text fill="#1E293B" font-family="'Plus Jakarta Sans'" font-size="11" font-weight="700" text-anchor="middle" x="140" y="156">Pune (Kharadi)</text>
+<text fill="#64748B" font-family="'JetBrains Mono'" font-size="9" text-anchor="middle" x="140" y="200">₹13.5k/desk • 81.9 pts</text>
+</g>
+<!-- BENGALURU ORR NODE -->
+<g class="cursor-pointer group" onclick="highlightCity('bengaluru')">
+<circle cx="260" cy="280" fill="#F1F5F9" r="34" stroke="#94A3B8" stroke-dasharray="3 3" stroke-width="1"></circle>
+<circle cx="260" cy="280" fill="#475569" r="5"></circle>
+<text fill="#1E293B" font-family="'Plus Jakarta Sans'" font-size="11" font-weight="700" text-anchor="middle" x="260" y="254">Bengaluru (ORR)</text>
+<text fill="#64748B" font-family="'JetBrains Mono'" font-size="9" text-anchor="middle" x="260" y="304">₹21.5k/desk • 83.2 pts</text>
+</g>
+<!-- HYDERABAD HITEC CITY (HERO TARGET) -->
+<g class="cursor-pointer group" onclick="highlightCity('hyderabad')">
+<circle cx="240" cy="160" fill="#EFF6FF" r="48" stroke="#BFDBFE" stroke-width="1.5"></circle>
+<circle cx="240" cy="160" fill="#DBEAFE" r="26" stroke="#2563EB" stroke-dasharray="3 2" stroke-width="1.5"></circle>
+<circle cx="240" cy="160" fill="#2563EB" r="7"></circle>
+<circle cx="240" cy="160" fill="#FFFFFF" r="3"></circle>
+<text fill="#1D4ED8" font-family="'Plus Jakarta Sans'" font-size="12" font-weight="800" text-anchor="middle" x="240" y="122">★ Hyderabad (HITEC)</text>
+<text fill="#059669" font-family="'JetBrains Mono'" font-size="10" font-weight="700" text-anchor="middle" x="240" y="136">RANK #1 • 87.4 PTS (OPTIMAL)</text>
+</g>
+</svg>
+<!-- Active Node Context Pill -->
+<div class="absolute bottom-3 left-3 right-3 p-3 rounded-lg bg-white/95 backdrop-blur border border-slate-200 shadow-sm flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-brand-600"></span>
+<span class="text-navy-800 font-bold">Active Cluster: HITEC Madhapur</span>
+</div>
+<div class="flex items-center gap-3 text-slate-600 text-[11px] font-mono">
+<span class="">Attrition: <b class="text-emerald-600 font-sans">15.0%</b> (vs 22.4% BLR)</span>
+<span class="">EPF Incentive: <b class="text-brand-600 font-sans">₹42L</b></span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between text-xs text-slate-500 pt-1">
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-brand-600"></span> Optimal Target</span>
+<span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span> Secondary Contenders</span>
+</div>
+<span class="font-mono text-[11px]">JLL &amp; NASSCOM Verified 2024</span>
+</div>
+</div>
+<!-- RIGHT: 3-City Showdown Matrix Cards (7 cols on xl) -->
+<div class="xl:col-span-7 flex flex-col gap-3">
+<div class="flex items-center justify-between pb-1 border-b border-slate-200">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-brand-600 text-[20px]">view_column</span>
+<span class="text-xs font-bold uppercase tracking-wider text-navy-800">3-City Comparative Showdown</span>
+</div>
+<span class="text-[11px] font-mono text-slate-500">D1–D5 MULTI-CRITERIA NORMALIZED MATRIX</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+<!-- CITY 1: HYDERABAD (RECOMMENDED TARGET) -->
+<div class="card-pitch rounded-xl p-4 border-2 border-brand-600 relative flex flex-col justify-between shadow-sm bg-white">
+<div class="absolute -top-2.5 right-3 px-2.5 py-0.5 rounded-full bg-brand-600 text-white font-bold text-[10px] tracking-wide uppercase shadow-xs">
+          RECOMMENDED #1
+        </div>
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-base font-bold text-navy-800">Hyderabad</span>
+<span class="text-xs text-brand-600 font-medium">HITEC City</span>
+</div>
+<div class="flex items-baseline gap-1.5 py-1">
+<span class="text-2xl font-bold font-mono text-navy-800">87.4</span>
+<span class="text-xs text-slate-400 font-mono">/100</span>
+<span class="text-[11px] font-semibold text-emerald-600 ml-auto">+4.2 over #2</span>
+</div>
+<!-- Cost breakdown card -->
+<div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 my-2.5 font-mono text-xs space-y-1">
+<div class="flex justify-between">
+<span class="text-slate-500 text-[11px] uppercase font-sans">3Y Net TCO:</span>
+<span class="text-navy-800 font-bold">$2,784,000</span>
+</div>
+<div class="flex justify-between">
+<span class="text-slate-500 text-[11px] uppercase font-sans">Cost / Head:</span>
+<span class="text-brand-600 font-semibold">$28,400/yr</span>
+</div>
+<div class="flex justify-between">
+<span class="text-slate-500 text-[11px] uppercase font-sans">Flex Desk:</span>
+<span class="text-slate-700">₹16,200/mo</span>
+</div>
+</div>
+<!-- 5-Dimension Bars -->
+<div class="space-y-2 text-xs pt-1">
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Talent Reach (D1)</span>
+<span class="font-bold text-navy-800 font-mono">88</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-brand-600" style="width: 88%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Net Cost Efficiency (D2)</span>
+<span class="text-emerald-600 font-bold font-mono">92</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-600" style="width: 92%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Speed to Operate (D3)</span>
+<span class="font-bold text-navy-800 font-mono">84</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-brand-600" style="width: 84%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Cluster Density (D4)</span>
+<span class="font-bold text-navy-800 font-mono">79</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400" style="width: 79%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">State Policy / Ease (D5)</span>
+<span class="font-bold text-navy-800 font-mono">81</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-brand-600" style="width: 81%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-3.5 pt-2 border-t border-slate-100 text-xs text-emerald-700 flex items-center justify-between font-medium">
+<span class="">Telangana ICT Subsidy</span>
+<span class="font-bold font-mono">₹42L Saved</span>
+</div>
+</div>
+<!-- CITY 2: BENGALURU (RUNNER-UP) -->
+<div class="card-pitch rounded-xl p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-base font-bold text-navy-800">Bengaluru</span>
+<span class="text-xs text-slate-500">Outer Ring Rd</span>
+</div>
+<div class="flex items-baseline gap-1.5 py-1">
+<span class="text-2xl font-bold font-mono text-slate-700">83.2</span>
+<span class="text-xs text-slate-400 font-mono">/100</span>
+<span class="text-[11px] text-slate-400 ml-auto">-4.2 pts</span>
+</div>
+<div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 my-2.5 font-mono text-xs space-y-1">
+<div class="flex justify-between">
+<span class="text-slate-500 text-[11px] uppercase font-sans">3Y Net TCO:</span>
+<span class="text-navy-800 font-bold">$3,420,000</span>
+</div>
+<div class="flex justify-between">
+<span class="text-slate-500 text-[11px] uppercase font-sans">Cost / Head:</span>
+<span class="text-slate-700 font-semibold">$34,800/yr</span>
+</div>
+<div class="flex justify-between">
+<span class="text-slate-500 text-[11px] uppercase font-sans">Flex Desk:</span>
+<span class="text-slate-700">₹21,500/mo</span>
+</div>
+</div>
+<div class="space-y-2 text-xs pt-1">
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Talent Reach (D1)</span>
+<span class="text-brand-600 font-bold font-mono">96 (Deepest)</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-brand-600" style="width: 96%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Net Cost Efficiency (D2)</span>
+<span class="text-rose-600 font-bold font-mono">71 (High Drag)</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-rose-500" style="width: 71%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Speed to Operate (D3)</span>
+<span class="font-bold text-slate-700 font-mono">78</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400" style="width: 78%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Cluster Density (D4)</span>
+<span class="text-navy-800 font-bold font-mono">94</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-navy-800" style="width: 94%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">State Policy / Ease (D5)</span>
+<span class="font-bold text-slate-700 font-mono">74</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400" style="width: 74%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-3.5 pt-2 border-t border-slate-100 text-xs text-rose-600 flex items-center justify-between font-medium">
+<span class="">Attrition Drag: 22.4%</span>
+<span class="font-bold font-mono">+$636K vs HYD</span>
+</div>
+</div>
+<!-- CITY 3: PUNE (COST ARBITRAGE) -->
+<div class="card-pitch rounded-xl p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-base font-bold text-navy-800">Pune</span>
+<span class="text-xs text-slate-500">Kharadi / EON</span>
+</div>
+<div class="flex items-baseline gap-1.5 py-1">
+<span class="text-2xl font-bold font-mono text-slate-700">81.9</span>
+<span class="text-xs text-slate-400 font-mono">/100</span>
+<span class="text-[11px] text-slate-400 ml-auto">-5.5 pts</span>
+</div>
+<div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 my-2.5 font-mono text-xs space-y-1">
+<div class="flex justify-between">
+<span class="text-slate-500 text-[11px] uppercase font-sans">3Y Net TCO:</span>
+<span class="text-emerald-700 font-bold">$2,610,000</span>
+</div>
+<div class="flex justify-between">
+<span class="text-slate-500 text-[11px] uppercase font-sans">Cost / Head:</span>
+<span class="text-slate-700 font-semibold">$26,200/yr</span>
+</div>
+<div class="flex justify-between">
+<span class="text-slate-500 text-[11px] uppercase font-sans">Flex Desk:</span>
+<span class="text-slate-700">₹13,500/mo</span>
+</div>
+</div>
+<div class="space-y-2 text-xs pt-1">
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Talent Reach (D1)</span>
+<span class="font-bold text-slate-700 font-mono">76</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400" style="width: 76%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Net Cost Efficiency (D2)</span>
+<span class="text-emerald-600 font-bold font-mono">95 (Lowest TCO)</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-600" style="width: 95%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Speed to Operate (D3)</span>
+<span class="font-bold text-slate-700 font-mono">82</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400" style="width: 82%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">Cluster Density (D4)</span>
+<span class="font-bold text-slate-700 font-mono">72</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400" style="width: 72%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-slate-600 mb-0.5 text-[11px]">
+<span class="">State Policy / Ease (D5)</span>
+<span class="font-bold text-slate-700 font-mono">84</span>
+</div>
+<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400" style="width: 84%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-3.5 pt-2 border-t border-slate-100 text-xs text-brand-700 flex items-center justify-between font-medium">
+<span class="">Scale Flip Point</span>
+<span class="font-bold font-mono">Flips at &gt;85 Seats</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ================= ZONE 4: QUANTITATIVE EXECUTION SYNTHESIS ================= -->
+<div class="card-pitch rounded-xl p-5 lg:p-6 flex flex-col gap-5">
+<div class="flex flex-wrap items-center justify-between pb-3 border-b border-slate-200 gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-blue-50 text-brand-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+</div>
+<div>
+<h3 class="text-sm font-bold text-navy-800 uppercase tracking-wide">Zone 4: Quantitative Execution Synthesis</h3>
+<p class="text-xs text-slate-500 font-body">Visual operational roadmap, segmented cost waterfall, and sensitivity threshold meters</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-xs font-mono text-slate-500">
+<span class="">BENCHMARKS: NASSCOM Q3 2024</span>
+<span class="">•</span>
+<span class="">JLL GRADE-A CORP 2024</span>
+</div>
+</div>
+<!-- 3 Presentation Columns -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+<!-- COLUMN 1: GANTT FLOW -->
+<div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-bold uppercase text-navy-800 tracking-wide">Legal Transition Flow (M0 → M36)</span>
+<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">Crossover H* = 48</span>
+</div>
+<div class="space-y-3 pt-1">
+<!-- Phase 1 Bar -->
+<div class="p-3 rounded-lg bg-white border border-slate-200 shadow-xs flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-xs">
+<span class="font-bold text-navy-800">Phase 1: Rapid EOR Inception</span>
+<span class="px-2 py-0.5 rounded bg-blue-50 text-brand-700 font-mono text-[10px] font-semibold">M0 → M9</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-600 font-body">
+<span class="material-symbols-outlined text-[15px] text-brand-600">check_circle</span>
+<span class="">Turnkey Flex Space • Day-1 Hiring • 0 Legal Lag</span>
+</div>
+</div>
+<!-- Milestone Diamond Indicator -->
+<div class="relative py-1 flex items-center justify-center">
+<div class="absolute inset-0 flex items-center"><div class="w-full border-t border-dashed border-amber-400"></div></div>
+<div class="relative z-10 px-3 py-1 rounded-full bg-white border border-amber-300 shadow-xs flex items-center gap-2 text-xs">
+<span class="w-2 h-2 rotate-45 bg-amber-500"></span>
+<span class="text-amber-800 font-semibold font-mono">Month 9 Cutover (H* = 48 Heads)</span>
+</div>
+</div>
+<!-- Phase 2 Bar -->
+<div class="p-3 rounded-lg bg-white border border-slate-200 shadow-xs flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-xs">
+<span class="font-bold text-navy-800">Phase 2: Private Limited Captive Entity</span>
+<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-mono text-[10px] font-semibold">M9 → M36</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-slate-600 font-body">
+<span class="material-symbols-outlined text-[15px] text-emerald-600">verified_user</span>
+<span class="">Direct Wholly-Owned Sub • ₹42L EPF Rebates</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 p-2.5 rounded-lg bg-rose-50 border border-rose-200 flex items-start gap-2 text-xs text-rose-800 font-body">
+<span class="material-symbols-outlined text-[16px] shrink-0 mt-0.5 text-rose-600">warning</span>
+<span class="">Forfeited under prolonged EOR: ₹42L in EPF Subsidies (Requires Local Entity Payroll)</span>
+</div>
+</div>
+<!-- COLUMN 2: HORIZONTAL TCO WATERFALL -->
+<div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-bold uppercase text-navy-800 tracking-wide">3-Year Net TCO Stacked Breakdown</span>
+<span class="text-base font-extrabold font-mono text-navy-800">$2,784,000 NET</span>
+</div>
+<p class="text-xs text-slate-500 mb-3 font-body">Mathematical payroll vs real estate fitout variance</p>
+<!-- Stacked Horizontal Bar -->
+<div class="h-6 w-full rounded-md overflow-hidden flex border border-slate-200 bg-white shadow-xs">
+<div class="bg-navy-800 h-full flex items-center justify-center text-[10px] font-mono font-bold text-white" style="width: 84.2%;" title="Payroll: 84.2%">
+            84.2%
+          </div>
+<div class="bg-brand-600 h-full flex items-center justify-center text-[10px] font-mono font-bold text-white" style="width: 11.0%;" title="Flex: 11.0%">
+            11%
+          </div>
+<div class="bg-slate-400 h-full" style="width: 3.8%;" title="Recruit: 3.8%"></div>
+<div class="bg-slate-300 h-full" style="width: 1.0%;" title="Legal: 1.0%"></div>
+</div>
+<!-- Itemized Legends -->
+<div class="grid grid-cols-2 gap-2 mt-3.5 text-xs">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-sm bg-navy-800"></span>
+<span class="text-slate-700">Talent: <b>$2.18M</b> <span class="text-slate-400">(84.2%)</span></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-sm bg-brand-600"></span>
+<span class="text-slate-700">Flex: <b>$384k</b> <span class="text-slate-400">(11.0%)</span></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-sm bg-slate-400"></span>
+<span class="text-slate-700">Recruit: <b>$280k</b> <span class="text-slate-400">(3.8%)</span></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-sm bg-slate-300"></span>
+<span class="text-slate-700">Entity: <b>$96k</b> <span class="text-slate-400">(1.0%)</span></span>
+</div>
+</div>
+<!-- Emerald Negative Offset Callout -->
+<div class="mt-3.5 p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs">
+<span class="text-emerald-800 flex items-center gap-1.5 font-semibold">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">savings</span>
+            Verified Telangana Subsidies Offset
+          </span>
+<span class="text-emerald-700 font-bold text-sm font-mono">-$156,000</span>
+</div>
+</div>
+<div class="mt-3 p-2.5 rounded-lg bg-white border border-slate-200 text-xs text-navy-800 font-medium">
+        ✦ Talent represents 84.2% of TCO — Real estate lease rate is secondary.
+      </div>
+</div>
+<!-- COLUMN 3: SENSITIVITY THRESHOLD GAUGES -->
+<div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-bold uppercase text-navy-800 tracking-wide">Sensitivity Threshold Gauges</span>
+<span class="text-[11px] font-mono text-slate-500">25 LEVERS SCANNED</span>
+</div>
+<!-- Gauge 1 -->
+<div class="mb-3.5 space-y-1.5">
+<div class="flex justify-between items-center text-xs">
+<span class="text-slate-700 font-medium">Switch Premium Flip Point</span>
+<span class="text-navy-800 font-mono font-bold text-[11px]">Current: 30.0% | Danger: 18.5%</span>
+</div>
+<div class="relative h-2.5 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 bg-rose-400" style="width: 37%"></div>
+<div class="absolute left-[37%] top-0 bottom-0 bg-emerald-500" style="width: 63%"></div>
+<div class="absolute top-0 bottom-0 w-1 bg-navy-800 shadow" style="left: 60%"></div>
+</div>
+<div class="text-[11px] text-slate-500 font-body">
+            Resilient: Bengaluru must drop <span class="text-emerald-700 font-semibold">11.5%</span> in salary premium to flip ranking.
+          </div>
+</div>
+<!-- Gauge 2 -->
+<div class="mb-3.5 space-y-1.5">
+<div class="flex justify-between items-center text-xs">
+<span class="text-slate-700 font-medium">Scale Capacity (40 → 85 Seats)</span>
+<span class="text-brand-600 font-mono font-bold text-[11px]">40 / 85 Max</span>
+</div>
+<div class="h-2.5 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-brand-600" style="width: 47%"></div>
+</div>
+<div class="text-[11px] text-slate-500 font-body">
+            Scales to <span class="text-navy-800 font-semibold">85 seats</span> before Pune Kharadi inventory takes the lead.
+          </div>
+</div>
+<!-- Gauge 3 -->
+<div class="space-y-1.5">
+<div class="flex justify-between items-center text-xs">
+<span class="text-slate-700 font-medium">Incentive Realization Stability</span>
+<span class="text-emerald-700 font-mono font-bold text-[11px]">100% Invariant</span>
+</div>
+<div class="h-2.5 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-500" style="width: 100%"></div>
+</div>
+<div class="text-[11px] text-slate-500 font-body">
+            Rankings remain deterministic across 0% to 100% subsidy realization.
+          </div>
+</div>
+</div>
+<div class="mt-3.5 pt-2.5 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 font-mono">
+<span class="">Monte Carlo: 10,000 runs</span>
+<span class="text-emerald-700 font-bold">HYD RESILIENT (95% C.I.)</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- ================= EXECUTIVE BOARD MEMORANDUM MODAL ================= -->
+<div class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 hidden" id="memoModal">
+<div class="card-pitch-elevated w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden bg-white">
+<!-- Header -->
+<div class="p-5 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-navy-800 text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">assignment</span>
+</div>
+<div>
+<h2 class="text-base font-bold text-navy-800 uppercase tracking-tight">Executive Board Decision Memorandum</h2>
+<p class="text-xs text-slate-500 font-medium">CONFIDENTIAL • INDIA GCC ESTABLISHMENT ARCHITECTURE</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-800 transition-all" onclick="toggleMemoModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Content (Scrollable) -->
+<div class="p-6 overflow-y-auto space-y-5 text-xs text-slate-700">
+<!-- Executive Directive Callout -->
+<div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200">
+<div class="text-[10px] text-brand-700 uppercase font-bold tracking-wider mb-1">1. Executive Directive</div>
+<div class="text-sm font-bold text-navy-800 leading-relaxed font-body">
+        Recommend immediate capital authorization for deployment in Hyderabad (HITEC City) utilizing a Turnkey Managed Flex workplace, executing through a Hybrid EOR-to-Captive legal transition at Month 9 (H* = 48 heads).
+      </div>
+</div>
+<!-- Comparative Financial Table -->
+<div>
+<div class="text-xs text-slate-700 uppercase font-bold mb-2">2. Three-Year Capital Requirement Projections (Normalized USD)</div>
+<div class="rounded-lg border border-slate-200 overflow-hidden bg-white shadow-xs">
+<table class="w-full text-left border-collapse">
+<thead class="bg-slate-50 text-[11px] text-slate-600 uppercase border-b border-slate-200">
+<tr>
+<th class="p-3">Capital Head</th>
+<th class="p-3 text-right">Hyderabad (HITEC)</th>
+<th class="p-3 text-right">Bengaluru (ORR)</th>
+<th class="p-3 text-right">Variance vs #2</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 font-mono text-xs">
+<tr>
+<td class="p-3 font-sans font-medium text-slate-800">Loaded Talent Compensation (84.2%)</td>
+<td class="p-3 text-right font-semibold text-navy-800">$2,180,000</td>
+<td class="p-3 text-right text-slate-600">$2,440,000</td>
+<td class="p-3 text-right text-emerald-600 font-bold">-$260,000</td>
+</tr>
+<tr>
+<td class="p-3 font-sans font-medium text-slate-800">Turnkey Managed Flex Space (11.0%)</td>
+<td class="p-3 text-right font-semibold text-navy-800">$384,000</td>
+<td class="p-3 text-right text-slate-600">$498,000</td>
+<td class="p-3 text-right text-emerald-600 font-bold">-$114,000</td>
+</tr>
+<tr>
+<td class="p-3 font-sans font-medium text-slate-800">Recruiting &amp; Attrition Replacement</td>
+<td class="p-3 text-right font-semibold text-navy-800">$280,000</td>
+<td class="p-3 text-right text-slate-600">$392,000</td>
+<td class="p-3 text-right text-emerald-600 font-bold">-$112,000</td>
+</tr>
+<tr>
+<td class="p-3 font-sans font-medium text-slate-800">Telangana ICT EPF Subsidies (Offset)</td>
+<td class="p-3 text-right font-semibold text-emerald-600">-$156,000</td>
+<td class="p-3 text-right text-slate-500">-$50,000</td>
+<td class="p-3 text-right text-emerald-600 font-bold">-$106,000</td>
+</tr>
+<tr class="bg-slate-50 font-bold border-t-2 border-slate-200">
+<td class="p-3 text-navy-800 font-sans">Net 36-Month TCO</td>
+<td class="p-3 text-right text-brand-600 text-sm">$2,784,000</td>
+<td class="p-3 text-right text-navy-800 text-sm">$3,140,000</td>
+<td class="p-3 text-right text-emerald-600 text-sm">-$356,000 (-11.3%)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Risk Containment Matrix -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+<div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
+<span class="text-navy-800 font-bold block mb-1">IP &amp; Regulatory Containment</span>
+<p class="text-slate-600 text-xs leading-relaxed font-body">
+          All code repositories and patents transferred to 100% owned Indian subsidiary at Month 9, bypassing ongoing EOR markups while adhering to RBI transfer pricing regulations.
+        </p>
+</div>
+<div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
+<span class="text-navy-800 font-bold block mb-1">Real Estate CapEx Hedging</span>
+<p class="text-slate-600 text-xs leading-relaxed font-body">
+          Preserves $720,000 in upfront fitout capital through managed flex desks (₹16,200/desk) until steady-state 100 seats is unlocked in Year 3.
+        </p>
+</div>
+</div>
+<div class="text-[11px] text-slate-400 pt-2 border-t border-slate-100 font-mono">
+      DATA PROVENANCE: JLL India Q3 2024 • NASSCOM GCC Playbook 2024-2026 • Telangana State IT Policy Gazette No. 142/2021.
+    </div>
+</div>
+<!-- Footer -->
+<div class="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+<div class="flex items-center gap-2 text-emerald-700 font-medium text-xs">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="">Ready for Board Governance Sign-Off</span>
+</div>
+<div class="flex items-center gap-2.5">
+<button class="px-3.5 py-2 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-medium text-xs transition-colors" onclick="toggleMemoModal()">
+        Dismiss
+      </button>
+<button class="px-4 py-2 rounded-lg bg-navy-800 hover:bg-navy-900 text-white font-semibold text-xs shadow-sm hover:shadow transition-all flex items-center gap-1.5" onclick="window.print()">
+<span class="material-symbols-outlined text-[16px]">print</span>
+        Print / Save PDF Dossier
+      </button>
+</div>
+</div>
+</div>
+</div>
+<!-- ================= CLIENT JAVASCRIPT ENGINE ================= -->
+<script>
+  let currentState = 1;
+  let currentWizardStep = 1;
+
+  function switchState(stateNum) {
+    currentState = stateNum;
+    
+    // Hide all state containers
+    document.getElementById('state1Container').classList.add('hidden');
+    document.getElementById('state2Container').classList.add('hidden');
+    document.getElementById('state3Container').classList.add('hidden');
+
+    // Reset tab buttons
+    const btn1 = document.getElementById('navState1');
+    const btn2 = document.getElementById('navState2');
+    const btn3 = document.getElementById('navState3');
+    
+    const inactiveClass = "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900 transition-all";
+    const activeClass = "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold bg-white text-navy-800 shadow-sm border border-slate-200 transition-all";
+
+    btn1.className = inactiveClass;
+    btn2.className = inactiveClass;
+    btn3.className = inactiveClass;
+
+    if (stateNum === 1) {
+      document.getElementById('state1Container').classList.remove('hidden');
+      document.getElementById('state1Container').classList.add('flex');
+      btn1.className = activeClass;
+    } else if (stateNum === 2) {
+      document.getElementById('state2Container').classList.remove('hidden');
+      document.getElementById('state2Container').classList.add('flex');
+      btn2.className = activeClass;
+      runSyncProgress();
+    } else if (stateNum === 3) {
+      document.getElementById('state3Container').classList.remove('hidden');
+      document.getElementById('state3Container').classList.add('flex');
+      btn3.className = activeClass;
+    }
+  }
+
+  // ================= WIZARD CONTROLLER =================
+  function goToWizardStep(stepNum) {
+    if (stepNum < 1 || stepNum > 4) return;
+    currentWizardStep = stepNum;
+
+    // Hide all step sections
+    for (let i = 1; i <= 4; i++) {
+      const stepEl = document.getElementById('wizardStep' + i);
+      if (stepEl) {
+        stepEl.classList.add('hidden');
+        stepEl.classList.remove('flex');
+      }
+    }
+
+    // Show target step
+    const targetStep = document.getElementById('wizardStep' + stepNum);
+    if (targetStep) {
+      targetStep.classList.remove('hidden');
+      targetStep.classList.add('flex');
+    }
+
+    // Update Counter
+    document.getElementById('stepCounterDisplay').innerText = stepNum;
+
+    // Update Stepper Pill Visuals
+    for (let i = 1; i <= 4; i++) {
+      const pill = document.getElementById('stepPill' + i);
+      const bar = pill.querySelector('div:first-child');
+      const badge = pill.querySelector('span:first-child');
+      const label = pill.querySelector('span:last-child');
+
+      if (i < stepNum) {
+        // Completed step
+        bar.className = "h-1.5 w-full rounded-full bg-emerald-600 transition-all";
+        badge.className = "w-4 h-4 rounded-full bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center";
+        badge.innerHTML = "✓";
+        label.className = "text-[11px] font-semibold text-slate-700 truncate";
+      } else if (i === stepNum) {
+        // Active step
+        bar.className = "h-1.5 w-full rounded-full bg-brand-600 transition-all";
+        badge.className = "w-4 h-4 rounded-full bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center";
+        badge.innerText = i.toString();
+        label.className = "text-[11px] font-bold text-navy-800 truncate";
+      } else {
+        // Pending step
+        bar.className = "h-1.5 w-full rounded-full bg-slate-200 transition-all";
+        badge.className = "w-4 h-4 rounded-full bg-slate-200 text-slate-600 text-[10px] font-bold flex items-center justify-center";
+        badge.innerText = i.toString();
+        label.className = "text-[11px] font-medium text-slate-400 truncate";
+      }
+    }
+
+    // Button states
+    const backBtn = document.getElementById('wizardBackBtn');
+    const nextBtn = document.getElementById('wizardNextBtn');
+    const executeBtn = document.getElementById('wizardExecuteBtn');
+
+    if (stepNum === 1) {
+      backBtn.disabled = true;
+      backBtn.className = "px-4 py-2 rounded-lg bg-slate-100 text-slate-400 font-semibold text-xs flex items-center gap-1.5 cursor-not-allowed";
+    } else {
+      backBtn.disabled = false;
+      backBtn.className = "px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer";
+    }
+
+    if (stepNum === 4) {
+      nextBtn.classList.add('hidden');
+      executeBtn.classList.remove('hidden');
+    } else {
+      nextBtn.classList.remove('hidden');
+      executeBtn.classList.add('hidden');
+    }
+  }
+
+  function nextWizardStep() {
+    if (currentWizardStep < 4) {
+      goToWizardStep(currentWizardStep + 1);
+    }
+  }
+
+  function prevWizardStep() {
+    if (currentWizardStep > 1) {
+      goToWizardStep(currentWizardStep - 1);
+    }
+  }
+
+  function filterRoles(category) {
+    const buttons = document.querySelectorAll('.role-cat-btn');
+    buttons.forEach(b => {
+      if (b.getAttribute('data-cat') === category) {
+        b.className = "role-cat-btn px-3 py-1 rounded-full bg-navy-800 text-white font-medium shadow-xs";
+      } else {
+        b.className = "role-cat-btn px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium";
+      }
+    });
+
+    const items = document.querySelectorAll('.role-item');
+    items.forEach(item => {
+      const cat = item.getAttribute('data-category');
+      if (category === 'all' || cat === category) {
+        item.classList.remove('hidden');
+        item.classList.add('flex');
+      } else {
+        item.classList.add('hidden');
+        item.classList.remove('flex');
+      }
+    });
+  }
+
+  function toggleRoleSelect(checkbox) {
+    const parent = checkbox.closest('.role-item');
+    if (checkbox.checked) {
+      parent.classList.remove('border-slate-200', 'bg-white');
+      parent.classList.add('border-2', 'border-brand-600', 'bg-brand-50/50');
+    } else {
+      parent.classList.remove('border-2', 'border-brand-600', 'bg-brand-50/50');
+      parent.classList.add('border', 'border-slate-200', 'bg-white');
+    }
+    updateRoleBadgeCount();
+  }
+
+  function selectAllRoles() {
+    const checkboxes = document.querySelectorAll('.role-item input[type="checkbox"]');
+    checkboxes.forEach(cb => {
+      cb.checked = true;
+      toggleRoleSelect(cb);
+    });
+  }
+
+  function updateRoleBadgeCount() {
+    const checked = document.querySelectorAll('.role-item input[type="checkbox"]:checked').length;
+    document.getElementById('selectedRolesCount').innerText = checked;
+  }
+
+  function simulateRunSync() {
+    switchState(2);
+  }
+
+  function runSyncProgress() {
+    const ring = document.getElementById('syncRing');
+    const percent = document.getElementById('syncPercent');
+    let p = 25;
+    ring.style.strokeDashoffset = "240";
+    percent.innerText = "25%";
+    
+    const interval = setInterval(() => {
+      p += 15;
+      if (p >= 100) {
+        p = 100;
+        ring.style.strokeDashoffset = "0";
+        percent.innerText = "100%";
+        clearInterval(interval);
+        setTimeout(() => {
+          switchState(3);
+        }, 700);
+      } else {
+        ring.style.strokeDashoffset = (314 - (314 * (p / 100))).toString();
+        percent.innerText = p + "%";
+      }
+    }, 220);
+  }
+
+  function toggleMemoModal() {
+    const modal = document.getElementById('memoModal');
+    modal.classList.toggle('hidden');
+  }
+
+  function updateSliders(h1, h3) {
+    if (h1 !== null) {
+      document.getElementById('s1_h1Val').innerText = h1 + " Seats";
+    }
+    if (h3 !== null) {
+      document.getElementById('s1_h3Val').innerText = h3 + " Seats";
+    }
+  }
+
+  function highlightCity(name) {
+    console.log("Inspecting node:", name);
+  }
+
+  // Initial setup: Default view is State 1 Step 1 as requested
+  document.addEventListener('DOMContentLoaded', () => {
+    switchState(1);
+    goToWizardStep(1);
+    updateRoleBadgeCount();
+  });
+</script>
+
+
+</body></html>

@@ -1,0 +1,4695 @@
+{
+  "meta": {
+    "name": "visor_data_v1",
+    "version": "1.0.0",
+    "generated": "2026-10-21",
+    "status": "ILLUSTRATIVE, ANALYST-ESTIMATED, PENDING VALIDATION. Not ground truth.",
+    "currency_base": "INR",
+    "spec": "VISOR Model Spec v0.1",
+    "envelope": "Every numeric estimate is {low, base, high, unit, source_type, confidence (H/M/L), as_of, [note], [sources]}. Ratings and the reach index use value/point form.",
+    "source_types": [
+      "analyst_estimate",
+      "broker_report",
+      "advisor_summary",
+      "professional_body_summary",
+      "press",
+      "operator_marketing",
+      "vendor_content",
+      "gazette (none retrieved in v1)",
+      "recruiter_survey (none in v1)"
+    ],
+    "what_is_sourced": "Incentive structures (Karnataka, Maharashtra), Hyderabad rent level and market direction, Bengaluru and Whitefield rent references, Telangana and Tamil Nadu policy status, Karnataka/Maharashtra policy dates. All from secondary summaries, none from official gazettes.",
+    "what_is_estimated": "All salaries, notice periods, talent scores, hiring capacity, switch premium adjustments, flex pricing, Pune and Chennai rents, vacancy levels, fit-out, lead times, anchor headcounts and placements, execution-ease ratings, EOR/captive cost parameters.",
+    "known_conflicts": [
+      "Telangana: GCC-specific policy described as existing (2025-2030) by a vendor guide but reported as still being drafted by 2026 press. Neither quantified.",
+      "Maharashtra payroll subsidy: 'above INR 1 lakh per month, capped INR 5 crore/yr' vs 'up to INR 50,000 per employee per month'. Modelled as the former.",
+      "Karnataka Beyond Bengaluru EPF reimbursement: per-month vs per-year basis unclear. Not quantified."
+    ],
+    "design_notes": [
+      "Chennai is the approved stub but is in a different state from Karnataka's Beyond Bengaluru package, so that package has no eligible micro-market (KA-BB-* records exist to test zone exclusion).",
+      "Salary is City x Domain x Band; micro-markets carry real estate, reach, vacancy and anchors (spec 4.2).",
+      "Unquantified incentives are shown in the UI with expected value 0 and a note; they must not be silently dropped."
+    ],
+    "next_validation_priorities": [
+      "Maharashtra payroll subsidy terms (gazette)",
+      "Telangana policy status",
+      "Pune and Chennai rents",
+      "Recruiter salary and notice data",
+      "Anchor tenant placements (MCA, press)"
+    ]
+  },
+  "sources": {
+    "S01": {
+      "title": "JLL APPD Market Report: Hyderabad Q2 2026 office",
+      "publisher": "JLL",
+      "url": "https://research.jllapsites.com/appd-market-report/q2-2026-office-hyderabad/",
+      "type": "broker_report",
+      "reliability": "M",
+      "used_for": "Hyderabad Grade A average rent INR 76.3/sq ft/month; HITEC City rent growth; Gachibowli oversupply risk"
+    },
+    "S02": {
+      "title": "Bengaluru rents rise as office fundamentals remain resilient (JLL Q2 2026)",
+      "publisher": "Real Estate Asia citing JLL",
+      "url": "https://realestateasia.com/indonesian/node/514604669",
+      "type": "broker_report",
+      "reliability": "M",
+      "used_for": "Bengaluru vacancy direction (SBD/Electronic City up, Whitefield down), rent growth"
+    },
+    "S03": {
+      "title": "DHR Holdings leases 1.8 lakh sq ft in Whitefield",
+      "publisher": "The Realty Today",
+      "url": "https://therealtytoday.com/news/commercial/dhr-holdings-leases-18-lakh-sq-ft-in-bengalurus-whitefield-for-88-crore",
+      "type": "press",
+      "reliability": "M",
+      "used_for": "Whitefield transaction rent INR 74.2/sq ft/month chargeable; Infineon and Aon Whitefield leases"
+    },
+    "S04": {
+      "title": "Office space cost in Bangalore for 80-100 employee teams",
+      "publisher": "myHQ (flex operator blog)",
+      "url": "https://myhq.in/blog/office-space-cost-bangalore-for-80-100-people",
+      "type": "operator_marketing",
+      "reliability": "L",
+      "used_for": "Bengaluru managed office roughly INR 15,000 per seat per month mid-market; average rent above INR 100/sq ft (cites Knight Frank). Operator marketing: treat as indicative"
+    },
+    "S05": {
+      "title": "BDO India: Karnataka GCC Policy 2024-29 summary",
+      "publisher": "BDO India",
+      "url": "https://bdo.in/getmedia/ee3322eb-8399-4a67-b3b3-9a71ed9e6746/GCC-Policy_BDO-India_Karnataka-GCC-Policy-_Design_1.pdf",
+      "type": "advisor_summary",
+      "reliability": "M",
+      "used_for": "Karnataka capex funding up to 40% (cap INR 5 crore) Bengaluru Urban; 75% (cap INR 3 crore) Beyond Bengaluru; final policy announced 19 Nov 2024"
+    },
+    "S06": {
+      "title": "State Policies (ICAI GCC Cell)",
+      "publisher": "ICAI",
+      "url": "https://global.icai.org/state-policy.html",
+      "type": "professional_body_summary",
+      "reliability": "M",
+      "used_for": "Karnataka skilling refund 20%, Beyond Bengaluru rent 50% up to INR 2 crore, EPF INR 3,000/employee for two years; Maharashtra summary; Telangana ICT policy 2021-2026"
+    },
+    "S07": {
+      "title": "Karnataka GCC Policy 2024-2029: Key Features",
+      "publisher": "India Briefing",
+      "url": "https://india-briefing.com/news/karnataka-global-capability-center-policy-2024-2029-key-features-35441.html",
+      "type": "advisor_summary",
+      "reliability": "M",
+      "used_for": "Karnataka policy dates and Beyond Bengaluru electricity duty exemption"
+    },
+    "S08": {
+      "title": "Maharashtra Global Capability Centre Policy 2025",
+      "publisher": "Grant Thornton Bharat",
+      "url": "https://www.grantthornton.in/globalassets/1.-member-firms/india/assets/pdfs/maharashtra-global-capability-centre-policy-2025.pdf",
+      "type": "advisor_summary",
+      "reliability": "M",
+      "used_for": "Maharashtra capital OR rental subsidy, payroll subsidy cap INR 5 crore annually, power tariff subsidy cap INR 20 lakh per unit per year, 5 equal instalments"
+    },
+    "S09": {
+      "title": "POLICY BRIEF: Maharashtra's GCC Policy 2025",
+      "publisher": "TaxGuru",
+      "url": "https://taxguru.in/?p=1036491",
+      "type": "advisor_summary",
+      "reliability": "L",
+      "used_for": "Zone I (MMR and PMR) vs Zone II; capital subsidy 20% on plant and machinery only; capital OR rental not both; payroll 40%/50% above INR 1 lakh per month"
+    },
+    "S10": {
+      "title": "Impetus to GCCs in India: Maharashtra releases its GCC Policy",
+      "publisher": "Mondaq",
+      "url": "https://webiis08.mondaq.com/india/industry-updates-analysis/1705680/impetus-to-gccs-in-india-maharashtra-releases-its-gcc-policy",
+      "type": "advisor_summary",
+      "reliability": "M",
+      "used_for": "Maharashtra policy valid till FY 2029-30; payroll subsidy on salaries above INR 1 lakh per month capped INR 5 crore annually per unit"
+    },
+    "S11": {
+      "title": "New Telangana GCC policy to focus on AI, space, semiconductors",
+      "publisher": "Siasat (citing Times of India)",
+      "url": "https://www.siasat.com/new-telangana-gcc-policy-to-focus-on-ai-space-semiconductors-3543873/",
+      "type": "press",
+      "reliability": "M",
+      "used_for": "Telangana GCC-specific policy reported as being drafted in 2026; shift from blanket to targeted incentives"
+    },
+    "S12": {
+      "title": "The Hyderabad GCC Advantage (Telangana GCC Policy 2025-2030)",
+      "publisher": "Plugscale",
+      "url": "https://www.plugscale.com/hyderabad-gcc-incentives-guide",
+      "type": "vendor_content",
+      "reliability": "L",
+      "used_for": "Claims a Telangana GCC Policy 2025-2030 exists. CONFLICTS with S11. Not relied on for amounts"
+    },
+    "S13": {
+      "title": "Telangana Industrial Policy: TS-iPASS, IT Parks & GCC Incentives",
+      "publisher": "Beacon Filing",
+      "url": "https://beaconfiling.com/blog/telangana-industrial-policy-ts-ipass-gcc",
+      "type": "vendor_content",
+      "reliability": "L",
+      "used_for": "Telangana ICT Policy 2021-2026 framing; TS-iPASS single window"
+    },
+    "S14": {
+      "title": "Tamil Nadu 'GCC One' single-window clearance",
+      "publisher": "Verified Realty / community article",
+      "url": "https://community.verified.realestate/article/global-capability-centres-get-fast-track-approvals-with-tamil-nadus-gcc-one/",
+      "type": "press",
+      "reliability": "L",
+      "used_for": "Tamil Nadu GCC One single window; GCC Policy 2024-27 payroll subsidies (amounts not found)"
+    },
+    "S15": {
+      "title": "Chennai GCC office leasing (CBRE)",
+      "publisher": "CBRE India",
+      "url": "https://www.cbre.co.in/press-releases/office-leasing-by-global-capability-centres-in-chennai-to-touch-3-2-mn-sq-ft-by-2025-cbre",
+      "type": "broker_report",
+      "reliability": "M",
+      "used_for": "Chennai GCC presence (about 250 GCCs), payroll subsidy programme exists"
+    },
+    "S16": {
+      "title": "State Policies Target Over 1.1 Million GCC Jobs by 2031",
+      "publisher": "CXOToday citing CBRE",
+      "url": "https://cxotoday.com/others/state-policies-target-over-1-1-million-gcc-jobs-by-2031-cbre-report/",
+      "type": "broker_report",
+      "reliability": "M",
+      "used_for": "Context: Bengaluru about 42% and Hyderabad about 20% of GCC leasing 2022-H1 2026"
+    },
+    "S17": {
+      "title": "10 Best Employer of Record (EOR) Companies in India (2026)",
+      "publisher": "Asanify (EOR vendor comparison)",
+      "url": "https://asanify.com/blog/employer-of-record-india/10-best-employer-of-record-service-providers-in-india/",
+      "type": "vendor_content",
+      "reliability": "L",
+      "used_for": "India EOR flat fees roughly USD 99 to 699 per employee per month; published rates: Multiplier 400, Skuad 199 to 249, Deel 599, Oyster 699. Vendor-authored comparison"
+    },
+    "S18": {
+      "title": "SynkPay Employer of Record (Gartner Digital Markets listing)",
+      "publisher": "Gartner",
+      "url": "https://www.gartner.com/reviews/product/synkpay-employer-of-record",
+      "type": "vendor_listing",
+      "reliability": "L",
+      "used_for": "Example India EOR flat price: USD 349 per employee per month, no setup fee"
+    },
+    "ANALYST": {
+      "title": "Analyst estimate (no primary source retrieved)",
+      "publisher": "VISOR prototype team",
+      "type": "analyst_estimate",
+      "reliability": "L",
+      "used_for": "Salaries, notice periods, talent scores, flex pricing, fit-out, anchor headcounts, execution-ease ratings. Must be calibrated against recruiter and broker inputs"
+    }
+  },
+  "domains": [
+    {
+      "id": "genai_ds",
+      "name": "Generative AI and Data Science"
+    },
+    {
+      "id": "cloud_fullstack",
+      "name": "Cloud Architecture and Full-Stack Core Engineering"
+    },
+    {
+      "id": "enterprise_sys",
+      "name": "Enterprise Systems (SAP, Salesforce, Cybersecurity)"
+    }
+  ],
+  "bands": [
+    {
+      "id": "junior",
+      "name": "Junior",
+      "years": "1-3"
+    },
+    {
+      "id": "mid",
+      "name": "Mid-level",
+      "years": "4-7"
+    },
+    {
+      "id": "senior",
+      "name": "Senior/Lead",
+      "years": "8-12"
+    }
+  ],
+  "cities": [
+    {
+      "id": "blr",
+      "name": "Bengaluru",
+      "state": "KA",
+      "tier": "metro"
+    },
+    {
+      "id": "hyd",
+      "name": "Hyderabad",
+      "state": "TG",
+      "tier": "metro"
+    },
+    {
+      "id": "pune",
+      "name": "Pune",
+      "state": "MH",
+      "tier": "metro"
+    },
+    {
+      "id": "chn",
+      "name": "Chennai",
+      "state": "TN",
+      "tier": "stub_beyond_core_metro",
+      "data_thin": true,
+      "note": "Stub option, single micro-market. Tamil Nadu incentives apply; Karnataka 'Beyond Bengaluru' incentives do NOT (different state). Consider swapping for a Karnataka tier-2 cluster if the Beyond Bengaluru test case is needed."
+    }
+  ],
+  "assumptions": {
+    "fx_inr_per_usd": {
+      "low": 88,
+      "base": 90,
+      "high": 92,
+      "unit": "INR per USD (fixed display assumption, not live)",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "note": "Replace with a dated reference rate before demos",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "switch_premium": {
+      "low": 0.25,
+      "base": 0.3,
+      "high": 0.4,
+      "unit": "fraction over median CTC",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "note": "Validate with recruiters (spec 17.4)",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "load_factor": {
+      "low": 0.15,
+      "base": 0.2,
+      "high": 0.25,
+      "unit": "fraction of offer CTC",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "agency_share_of_hires": {
+      "low": 0.4,
+      "base": 0.6,
+      "high": 0.8,
+      "unit": "fraction",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "agency_fee": {
+      "low": 0.0833,
+      "base": 0.12,
+      "high": 0.16,
+      "unit": "fraction of annual CTC",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "attrition_by_domain": {
+      "genai_ds": {
+        "low": 0.15,
+        "base": 0.18,
+        "high": 0.22,
+        "unit": "annual fraction",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "cloud_fullstack": {
+        "low": 0.11,
+        "base": 0.14,
+        "high": 0.18,
+        "unit": "annual fraction",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "enterprise_sys": {
+        "low": 0.09,
+        "base": 0.12,
+        "high": 0.16,
+        "unit": "annual fraction",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      }
+    },
+    "replacement_cost": {
+      "low": 0.2,
+      "base": 0.3,
+      "high": 0.5,
+      "unit": "fraction of annual loaded cost",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "desk_ratio": {
+      "low": 0.7,
+      "base": 0.85,
+      "high": 1.0,
+      "unit": "desks per head",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "sqft_per_seat": {
+      "low": 70,
+      "base": 80,
+      "high": 100,
+      "unit": "sq ft per seat incl. circulation",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "eor_fee_usd_per_head_month": {
+      "low": 99,
+      "base": 300,
+      "high": 600,
+      "unit": "USD per employee per month (flat)",
+      "source_type": "vendor_content",
+      "confidence": "M",
+      "as_of": "2026-10-21",
+      "note": "India EOR pricing is flat per employee, not a percentage of payroll. Market range about 99 to 699; mid-market 250 to 450. Statutory contributions and salary are charged on top (already in load factor). Replaced an earlier 10%-of-payroll placeholder.",
+      "sources": [
+        "S17",
+        "S18"
+      ]
+    },
+    "captive_setup_one_time_inr_lakh": {
+      "low": 20,
+      "base": 40,
+      "high": 80,
+      "unit": "INR lakh",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "captive_monthly_compliance_inr_lakh": {
+      "low": 5,
+      "base": 8,
+      "high": 12,
+      "unit": "INR lakh per month fixed overhead (finance, HR, legal admin)",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "captive_variable_compliance_per_head_month_inr": {
+      "low": 800,
+      "base": 1200,
+      "high": 1800,
+      "unit": "INR per head per month",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "note": "Used in H* conversion headcount",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "captive_tp_audit_annual_inr_lakh": {
+      "low": 20,
+      "base": 35,
+      "high": 60,
+      "unit": "INR lakh per year (transfer pricing, statutory audit)",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "eor_to_captive_transition_inr_lakh": {
+      "low": 8,
+      "base": 15,
+      "high": 30,
+      "unit": "INR lakh one-off (contract re-papering, benefits transfer)",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "search_lag_months": {
+      "low": 0.5,
+      "base": 1.0,
+      "high": 2.0,
+      "unit": "months",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "cost_of_delay_fraction_of_monthly_payroll_at_H1": {
+      "low": 0.05,
+      "base": 0.1,
+      "high": 0.2,
+      "unit": "fraction per month of delay vs fastest path",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "note": "Placeholder; only used when delay value toggle is on (auto-on for Speed to Market)",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "training_spend_per_head_annual_inr": {
+      "low": 20000,
+      "base": 40000,
+      "high": 60000,
+      "unit": "INR per head per year",
+      "source_type": "analyst_estimate",
+      "confidence": "L",
+      "as_of": "2026-10-21",
+      "sources": [
+        "ANALYST"
+      ]
+    },
+    "band_mix_default": {
+      "junior": 0.35,
+      "mid": 0.45,
+      "senior": 0.2
+    },
+    "ramp_min_months": 9,
+    "pressure_premium": {
+      "slope_pts_per_100pct_overshoot": 10,
+      "cap_pts": 15
+    },
+    "utilization_exclusion_threshold": 2.0
+  },
+  "benchmarks": {
+    "net_cost_per_head_inr_lakh": {
+      "best": 40,
+      "worst": 80,
+      "note": "Annualized net cost per head. Calibrated on a 24-scenario grid (3 domains x Y1 20/40/80/150 x flex/traditional, base case): p2 = 44, p98 = 78, padded. Locked; re-set only when the dataset changes materially."
+    },
+    "t_first_months": {
+      "best": 3,
+      "worst": 10,
+      "note": "Same grid: p2 = 3.6, p98 = 9.0 months"
+    },
+    "t_y1_months": {
+      "best": 8,
+      "worst": 28,
+      "note": "Same grid: p2 = 12.6, median 17; long tail comes from hiring-capacity overreach"
+    },
+    "anchor_headcount_total": {
+      "best": 24000,
+      "worst": 0,
+      "unit": "sum of anchor base headcount in the micro-market"
+    },
+    "anchor_count": {
+      "best": 4,
+      "worst": 0
+    },
+    "availability_score": {
+      "best": 100,
+      "worst": 1
+    },
+    "utilization_fit": {
+      "best_u": 0.5,
+      "worst_u": 2.0
+    },
+    "execution_ease_rating": {
+      "best": 5,
+      "worst": 1
+    }
+  },
+  "salary_median_ctc_lpa": {
+    "blr": {
+      "genai_ds": {
+        "junior": {
+          "low": 15.84,
+          "base": 18.0,
+          "high": 20.16,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 29.92,
+          "base": 34.0,
+          "high": 38.08,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 51.04,
+          "base": 58.0,
+          "high": 64.96,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "cloud_fullstack": {
+        "junior": {
+          "low": 12.32,
+          "base": 14.0,
+          "high": 15.68,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 24.64,
+          "base": 28.0,
+          "high": 31.36,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 42.24,
+          "base": 48.0,
+          "high": 53.76,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "enterprise_sys": {
+        "junior": {
+          "low": 11.44,
+          "base": 13.0,
+          "high": 14.56,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 22.88,
+          "base": 26.0,
+          "high": 29.12,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 38.72,
+          "base": 44.0,
+          "high": 49.28,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      }
+    },
+    "hyd": {
+      "genai_ds": {
+        "junior": {
+          "low": 15.05,
+          "base": 17.1,
+          "high": 19.15,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 28.42,
+          "base": 32.3,
+          "high": 36.18,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 48.49,
+          "base": 55.1,
+          "high": 61.71,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "cloud_fullstack": {
+        "junior": {
+          "low": 11.7,
+          "base": 13.3,
+          "high": 14.9,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 23.41,
+          "base": 26.6,
+          "high": 29.79,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 40.13,
+          "base": 45.6,
+          "high": 51.07,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "enterprise_sys": {
+        "junior": {
+          "low": 10.82,
+          "base": 12.3,
+          "high": 13.78,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 21.74,
+          "base": 24.7,
+          "high": 27.66,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 36.78,
+          "base": 41.8,
+          "high": 46.82,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      }
+    },
+    "pune": {
+      "genai_ds": {
+        "junior": {
+          "low": 14.26,
+          "base": 16.2,
+          "high": 18.14,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 26.93,
+          "base": 30.6,
+          "high": 34.27,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 45.94,
+          "base": 52.2,
+          "high": 58.46,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "cloud_fullstack": {
+        "junior": {
+          "low": 11.09,
+          "base": 12.6,
+          "high": 14.11,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 22.18,
+          "base": 25.2,
+          "high": 28.22,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 38.02,
+          "base": 43.2,
+          "high": 48.38,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "enterprise_sys": {
+        "junior": {
+          "low": 10.3,
+          "base": 11.7,
+          "high": 13.1,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 20.59,
+          "base": 23.4,
+          "high": 26.21,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 34.85,
+          "base": 39.6,
+          "high": 44.35,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      }
+    },
+    "chn": {
+      "genai_ds": {
+        "junior": {
+          "low": 13.64,
+          "base": 15.5,
+          "high": 17.36,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 25.7,
+          "base": 29.2,
+          "high": 32.7,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 43.91,
+          "base": 49.9,
+          "high": 55.89,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "cloud_fullstack": {
+        "junior": {
+          "low": 10.56,
+          "base": 12.0,
+          "high": 13.44,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 21.21,
+          "base": 24.1,
+          "high": 26.99,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 36.34,
+          "base": 41.3,
+          "high": 46.26,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "enterprise_sys": {
+        "junior": {
+          "low": 9.86,
+          "base": 11.2,
+          "high": 12.54,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "mid": {
+          "low": 19.71,
+          "base": 22.4,
+          "high": 25.09,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "senior": {
+          "low": 33.26,
+          "base": 37.8,
+          "high": 42.34,
+          "unit": "INR lakh per annum (median base CTC)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Illustrative. Hyderabad/Pune/Chennai derived as a factor on Bengaluru. Calibrate with recruiter survey.",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      }
+    }
+  },
+  "salary_increment_pct": {
+    "genai_ds": {
+      "junior": {
+        "low": 10,
+        "base": 12,
+        "high": 14,
+        "unit": "percent per year",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "City-independent in v1; city override allowed in schema",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "mid": {
+        "low": 9,
+        "base": 11,
+        "high": 13,
+        "unit": "percent per year",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "City-independent in v1; city override allowed in schema",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "senior": {
+        "low": 7,
+        "base": 9,
+        "high": 11,
+        "unit": "percent per year",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "City-independent in v1; city override allowed in schema",
+        "sources": [
+          "ANALYST"
+        ]
+      }
+    },
+    "cloud_fullstack": {
+      "junior": {
+        "low": 8,
+        "base": 10,
+        "high": 12,
+        "unit": "percent per year",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "City-independent in v1; city override allowed in schema",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "mid": {
+        "low": 7,
+        "base": 9,
+        "high": 11,
+        "unit": "percent per year",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "City-independent in v1; city override allowed in schema",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "senior": {
+        "low": 6,
+        "base": 8,
+        "high": 10,
+        "unit": "percent per year",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "City-independent in v1; city override allowed in schema",
+        "sources": [
+          "ANALYST"
+        ]
+      }
+    },
+    "enterprise_sys": {
+      "junior": {
+        "low": 7,
+        "base": 9,
+        "high": 11,
+        "unit": "percent per year",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "City-independent in v1; city override allowed in schema",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "mid": {
+        "low": 6,
+        "base": 8,
+        "high": 10,
+        "unit": "percent per year",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "City-independent in v1; city override allowed in schema",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "senior": {
+        "low": 5,
+        "base": 7,
+        "high": 9,
+        "unit": "percent per year",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "City-independent in v1; city override allowed in schema",
+        "sources": [
+          "ANALYST"
+        ]
+      }
+    }
+  },
+  "talent": {
+    "blr": {
+      "genai_ds": {
+        "availability_score": {
+          "low": 84,
+          "base": 92,
+          "high": 98,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 63,
+          "base": 90,
+          "high": 117,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 60,
+          "base": 75,
+          "high": 90,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": 2,
+          "base": 4,
+          "high": 6,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "cloud_fullstack": {
+        "availability_score": {
+          "low": 87,
+          "base": 95,
+          "high": 100,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 154,
+          "base": 220,
+          "high": 286,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 56,
+          "base": 70,
+          "high": 84,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": 0,
+          "base": 2,
+          "high": 4,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "enterprise_sys": {
+        "availability_score": {
+          "low": 77,
+          "base": 85,
+          "high": 91,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 98,
+          "base": 140,
+          "high": 182,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 52,
+          "base": 65,
+          "high": 78,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": -2,
+          "base": 0,
+          "high": 2,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      }
+    },
+    "hyd": {
+      "genai_ds": {
+        "availability_score": {
+          "low": 70,
+          "base": 78,
+          "high": 84,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 42,
+          "base": 60,
+          "high": 78,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 58,
+          "base": 72,
+          "high": 86,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": 0,
+          "base": 2,
+          "high": 4,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "cloud_fullstack": {
+        "availability_score": {
+          "low": 78,
+          "base": 86,
+          "high": 92,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 112,
+          "base": 160,
+          "high": 208,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 54,
+          "base": 68,
+          "high": 82,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": -1,
+          "base": 1,
+          "high": 3,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "enterprise_sys": {
+        "availability_score": {
+          "low": 74,
+          "base": 82,
+          "high": 88,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 77,
+          "base": 110,
+          "high": 143,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 50,
+          "base": 62,
+          "high": 74,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": -2,
+          "base": 0,
+          "high": 2,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      }
+    },
+    "pune": {
+      "genai_ds": {
+        "availability_score": {
+          "low": 60,
+          "base": 68,
+          "high": 74,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 31,
+          "base": 45,
+          "high": 58,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 56,
+          "base": 70,
+          "high": 84,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": -2,
+          "base": 0,
+          "high": 2,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "cloud_fullstack": {
+        "availability_score": {
+          "low": 72,
+          "base": 80,
+          "high": 86,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 91,
+          "base": 130,
+          "high": 169,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 53,
+          "base": 66,
+          "high": 79,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": -2,
+          "base": 0,
+          "high": 2,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "enterprise_sys": {
+        "availability_score": {
+          "low": 76,
+          "base": 84,
+          "high": 90,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 84,
+          "base": 120,
+          "high": 156,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 48,
+          "base": 60,
+          "high": 72,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": -3,
+          "base": -1,
+          "high": 1,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      }
+    },
+    "chn": {
+      "genai_ds": {
+        "availability_score": {
+          "low": 47,
+          "base": 55,
+          "high": 61,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 18,
+          "base": 25,
+          "high": 32,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 54,
+          "base": 68,
+          "high": 82,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": -4,
+          "base": -2,
+          "high": 0,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "cloud_fullstack": {
+        "availability_score": {
+          "low": 60,
+          "base": 68,
+          "high": 74,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 49,
+          "base": 70,
+          "high": 91,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 51,
+          "base": 64,
+          "high": 77,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": -4,
+          "base": -2,
+          "high": 0,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "enterprise_sys": {
+        "availability_score": {
+          "low": 64,
+          "base": 72,
+          "high": 78,
+          "unit": "score 1-100",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Relative depth of experienced talent in this domain for an average-brand employer",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "hiring_capacity_annual": {
+          "low": 56,
+          "base": 80,
+          "high": 104,
+          "unit": "hires per year for an average-brand entrant",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Defined as hires achievable per year without market-moving salary pressure. Definition to be agreed (spec section 17 item 5)",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "notice_days_blended": {
+          "low": 46,
+          "base": 58,
+          "high": 70,
+          "unit": "days",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "switch_premium_adjust_pts": {
+          "low": -4,
+          "base": -2,
+          "high": 0,
+          "unit": "percentage points added to global switch premium",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "City-domain wage-pressure adjustment (poaching intensity)",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      }
+    }
+  },
+  "states": {
+    "KA": {
+      "legal_lag_captive_months": {
+        "low": 2.5,
+        "base": 4.0,
+        "high": 6.0,
+        "unit": "months to legal vehicle ready",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "legal_lag_eor_months": {
+        "low": 1.0,
+        "base": 1.5,
+        "high": 2.5,
+        "unit": "months to first EOR-employed hire possible",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "National; same for all states in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "execution_ease": {
+        "approval_speed": {
+          "low": 4,
+          "base": 4,
+          "high": 4,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "policy_runway": {
+          "low": 4,
+          "base": 4,
+          "high": 4,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "single_window": {
+          "low": 4,
+          "base": 4,
+          "high": 4,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "claim_reliability": {
+          "low": 3,
+          "base": 3,
+          "high": 3,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "execution_ease_rationale": "Dedicated GCC policy to 2029 with a GCC facilitation focus; claim reliability unproven for new policy"
+    },
+    "TG": {
+      "legal_lag_captive_months": {
+        "low": 2.5,
+        "base": 3.5,
+        "high": 5.5,
+        "unit": "months to legal vehicle ready",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "legal_lag_eor_months": {
+        "low": 1.0,
+        "base": 1.5,
+        "high": 2.5,
+        "unit": "months to first EOR-employed hire possible",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "National; same for all states in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "execution_ease": {
+        "approval_speed": {
+          "low": 5,
+          "base": 5,
+          "high": 5,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "policy_runway": {
+          "low": 2,
+          "base": 2,
+          "high": 2,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "single_window": {
+          "low": 5,
+          "base": 5,
+          "high": 5,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "claim_reliability": {
+          "low": 3,
+          "base": 3,
+          "high": 3,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "execution_ease_rationale": "Strong single-window reputation (TS-iPASS). Runway rated low: ICT Policy 2021-26 is at/near expiry and the GCC-specific successor is reported as still in drafting (source conflict, see incentives)"
+    },
+    "MH": {
+      "legal_lag_captive_months": {
+        "low": 3.0,
+        "base": 4.5,
+        "high": 6.5,
+        "unit": "months to legal vehicle ready",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "legal_lag_eor_months": {
+        "low": 1.0,
+        "base": 1.5,
+        "high": 2.5,
+        "unit": "months to first EOR-employed hire possible",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "National; same for all states in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "execution_ease": {
+        "approval_speed": {
+          "low": 3,
+          "base": 3,
+          "high": 3,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "policy_runway": {
+          "low": 4,
+          "base": 4,
+          "high": 4,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "single_window": {
+          "low": 3,
+          "base": 3,
+          "high": 3,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "claim_reliability": {
+          "low": 2,
+          "base": 2,
+          "high": 2,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "execution_ease_rationale": "New policy valid to FY2029-30 with a facilitation cell not yet proven; disbursal reliability unknown"
+    },
+    "TN": {
+      "legal_lag_captive_months": {
+        "low": 2.5,
+        "base": 4.0,
+        "high": 6.0,
+        "unit": "months to legal vehicle ready",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "legal_lag_eor_months": {
+        "low": 1.0,
+        "base": 1.5,
+        "high": 2.5,
+        "unit": "months to first EOR-employed hire possible",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "National; same for all states in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "execution_ease": {
+        "approval_speed": {
+          "low": 4,
+          "base": 4,
+          "high": 4,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "policy_runway": {
+          "low": 3,
+          "base": 3,
+          "high": 3,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "single_window": {
+          "low": 5,
+          "base": 5,
+          "high": 5,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "claim_reliability": {
+          "low": 3,
+          "base": 3,
+          "high": 3,
+          "unit": "rating 1-5",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "note": "Point estimate; uncertainty not modelled",
+          "sources": [
+            "ANALYST"
+          ]
+        }
+      },
+      "execution_ease_rationale": "GCC One single window announced 2025; GCC Policy 2024-27 runway shorter"
+    }
+  },
+  "micro_markets": [
+    {
+      "id": "blr_orr",
+      "name": "Outer Ring Road (Bellandur-Marathahalli-Sarjapur)",
+      "city": "blr",
+      "flex_cost_per_desk_month_inr": {
+        "low": 14900.0,
+        "base": 17500,
+        "high": 20100.0,
+        "unit": "INR per desk per month (managed, plug-and-play)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Anchored to ~INR 15,000/seat Bengaluru mid-market (operator blog, low reliability); other micro-markets scaled by analyst judgment",
+        "sources": [
+          "S04",
+          "ANALYST"
+        ]
+      },
+      "lease_rate_psf_month_inr": {
+        "low": 94,
+        "base": 105,
+        "high": 118,
+        "unit": "INR per sq ft per month (Grade A, chargeable area)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Anchored to reports of Bengaluru average rents above INR 100; ORR micro-market split is an estimate. JLL notes rising SBD vacancy as new supply lands.",
+        "sources": [
+          "S02",
+          "S04"
+        ]
+      },
+      "fitout_capex_psf_inr": {
+        "low": 1800,
+        "base": 2500,
+        "high": 3200,
+        "unit": "INR per sq ft (warm-shell to fully fitted)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Same across micro-markets in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lockin_months": {
+        "low": 24,
+        "base": 36,
+        "high": 60,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "security_deposit_months_rent": {
+        "low": 3,
+        "base": 6,
+        "high": 9,
+        "unit": "months of rent (cash line, not TCO)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "vacancy_pct": {
+        "low": 11,
+        "base": 14,
+        "high": 17,
+        "unit": "percent of Grade A stock",
+        "source_type": "broker_report",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Direction supported by JLL commentary where sources listed; level is an estimate",
+        "sources": [
+          "S02",
+          "S04"
+        ]
+      },
+      "space_lead_flex_months": {
+        "low": 0.75,
+        "base": 1.5,
+        "high": 3.0,
+        "unit": "months to move-in",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_traditional_months": {
+        "low": 5,
+        "base": 8,
+        "high": 11,
+        "unit": "months incl. negotiation and fit-out",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "talent_reach_index": {
+        "value": 5,
+        "scale": "1-5",
+        "rationale": "Adjacent to the largest concentration of tech-talent residential areas (south-east Bengaluru)",
+        "confidence": "L",
+        "source_type": "analyst_estimate",
+        "as_of": "2026-10-21",
+        "rubric": "5 = most target talent within ~45 min; 3 = roughly half; 1 = few. Hand-scored; replace with commute-isochrone data in V2."
+      },
+      "anchors": [
+        {
+          "name": "Wells Fargo",
+          "sector": "BFSI",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 7000,
+            "base": 9500,
+            "high": 12000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Goldman Sachs",
+          "sector": "BFSI",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 4000,
+            "base": 5500,
+            "high": 7500,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Cisco",
+          "sector": "Technology",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 8000,
+            "base": 11000,
+            "high": 14000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        }
+      ]
+    },
+    {
+      "id": "blr_whitefield",
+      "name": "Whitefield",
+      "city": "blr",
+      "flex_cost_per_desk_month_inr": {
+        "low": 12300.0,
+        "base": 14500,
+        "high": 16700.0,
+        "unit": "INR per desk per month (managed, plug-and-play)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Anchored to ~INR 15,000/seat Bengaluru mid-market (operator blog, low reliability); other micro-markets scaled by analyst judgment",
+        "sources": [
+          "S04",
+          "ANALYST"
+        ]
+      },
+      "lease_rate_psf_month_inr": {
+        "low": 76,
+        "base": 85,
+        "high": 95,
+        "unit": "INR per sq ft per month (Grade A, chargeable area)",
+        "source_type": "broker_report",
+        "confidence": "M",
+        "as_of": "2026-10-21",
+        "note": "Transaction reference INR 74.2/sq ft chargeable (about INR 100 carpet) for a large Whitefield lease; quoted rents estimated higher for new Grade A. Vacancy trending down per JLL.",
+        "sources": [
+          "S03",
+          "S02"
+        ]
+      },
+      "fitout_capex_psf_inr": {
+        "low": 1800,
+        "base": 2500,
+        "high": 3200,
+        "unit": "INR per sq ft (warm-shell to fully fitted)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Same across micro-markets in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lockin_months": {
+        "low": 24,
+        "base": 36,
+        "high": 60,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "security_deposit_months_rent": {
+        "low": 3,
+        "base": 6,
+        "high": 9,
+        "unit": "months of rent (cash line, not TCO)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "vacancy_pct": {
+        "low": 7,
+        "base": 10,
+        "high": 13,
+        "unit": "percent of Grade A stock",
+        "source_type": "broker_report",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Direction supported by JLL commentary where sources listed; level is an estimate",
+        "sources": [
+          "S03",
+          "S02"
+        ]
+      },
+      "space_lead_flex_months": {
+        "low": 0.75,
+        "base": 1.5,
+        "high": 3.0,
+        "unit": "months to move-in",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_traditional_months": {
+        "low": 5,
+        "base": 8,
+        "high": 11,
+        "unit": "months incl. negotiation and fit-out",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "talent_reach_index": {
+        "value": 3,
+        "scale": "1-5",
+        "rationale": "Strong local residential base in the east, but poor cross-city commute for talent living south or north",
+        "confidence": "L",
+        "source_type": "analyst_estimate",
+        "as_of": "2026-10-21",
+        "rubric": "5 = most target talent within ~45 min; 3 = roughly half; 1 = few. Hand-scored; replace with commute-isochrone data in V2."
+      },
+      "anchors": [
+        {
+          "name": "Infineon Technologies",
+          "sector": "Semiconductors",
+          "domains": [
+            "cloud_fullstack",
+            "genai_ds"
+          ],
+          "headcount_est": {
+            "low": 2500,
+            "base": 3500,
+            "high": 5000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "S03"
+            ]
+          },
+          "placement_confidence": "M",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "DHR Holdings (Danaher)",
+          "sector": "Life sciences",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 1500,
+            "base": 2200,
+            "high": 3000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "S03"
+            ]
+          },
+          "placement_confidence": "M",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Aon",
+          "sector": "Professional services / insurance",
+          "domains": [
+            "enterprise_sys",
+            "cloud_fullstack"
+          ],
+          "headcount_est": {
+            "low": 3000,
+            "base": 4000,
+            "high": 5500,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "S03"
+            ]
+          },
+          "placement_confidence": "M",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "SAP Labs India",
+          "sector": "Enterprise software",
+          "domains": [
+            "enterprise_sys",
+            "cloud_fullstack"
+          ],
+          "headcount_est": {
+            "low": 4000,
+            "base": 5500,
+            "high": 7500,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        }
+      ]
+    },
+    {
+      "id": "blr_manyata",
+      "name": "Manyata / North Bengaluru (Hebbal-Thanisandra)",
+      "city": "blr",
+      "flex_cost_per_desk_month_inr": {
+        "low": 11900.0,
+        "base": 14000,
+        "high": 16100.0,
+        "unit": "INR per desk per month (managed, plug-and-play)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Anchored to ~INR 15,000/seat Bengaluru mid-market (operator blog, low reliability); other micro-markets scaled by analyst judgment",
+        "sources": [
+          "S04",
+          "ANALYST"
+        ]
+      },
+      "lease_rate_psf_month_inr": {
+        "low": 72,
+        "base": 80,
+        "high": 90,
+        "unit": "INR per sq ft per month (Grade A, chargeable area)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Estimate.",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "fitout_capex_psf_inr": {
+        "low": 1800,
+        "base": 2500,
+        "high": 3200,
+        "unit": "INR per sq ft (warm-shell to fully fitted)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Same across micro-markets in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lockin_months": {
+        "low": 24,
+        "base": 36,
+        "high": 60,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "security_deposit_months_rent": {
+        "low": 3,
+        "base": 6,
+        "high": 9,
+        "unit": "months of rent (cash line, not TCO)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "vacancy_pct": {
+        "low": 6,
+        "base": 9,
+        "high": 12,
+        "unit": "percent of Grade A stock",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Direction supported by JLL commentary where sources listed; level is an estimate",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_flex_months": {
+        "low": 0.75,
+        "base": 1.5,
+        "high": 3.0,
+        "unit": "months to move-in",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_traditional_months": {
+        "low": 5,
+        "base": 8,
+        "high": 11,
+        "unit": "months incl. negotiation and fit-out",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "talent_reach_index": {
+        "value": 2,
+        "scale": "1-5",
+        "rationale": "North-corridor talent pool is smaller; many South Bengaluru residents will not commute (spec thesis case)",
+        "confidence": "L",
+        "source_type": "analyst_estimate",
+        "as_of": "2026-10-21",
+        "rubric": "5 = most target talent within ~45 min; 3 = roughly half; 1 = few. Hand-scored; replace with commute-isochrone data in V2."
+      },
+      "anchors": [
+        {
+          "name": "Target",
+          "sector": "Retail",
+          "domains": [
+            "cloud_fullstack",
+            "genai_ds"
+          ],
+          "headcount_est": {
+            "low": 4500,
+            "base": 5500,
+            "high": 7000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Nokia",
+          "sector": "Telecom",
+          "domains": [
+            "cloud_fullstack"
+          ],
+          "headcount_est": {
+            "low": 2500,
+            "base": 3500,
+            "high": 5000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "IBM India",
+          "sector": "Technology",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys",
+            "genai_ds"
+          ],
+          "headcount_est": {
+            "low": 3000,
+            "base": 4500,
+            "high": 6000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        }
+      ]
+    },
+    {
+      "id": "hyd_hitec",
+      "name": "HITEC City / Madhapur",
+      "city": "hyd",
+      "flex_cost_per_desk_month_inr": {
+        "low": 11500.0,
+        "base": 13500,
+        "high": 15500.0,
+        "unit": "INR per desk per month (managed, plug-and-play)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Anchored to ~INR 15,000/seat Bengaluru mid-market (operator blog, low reliability); other micro-markets scaled by analyst judgment",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lease_rate_psf_month_inr": {
+        "low": 83,
+        "base": 92,
+        "high": 103,
+        "unit": "INR per sq ft per month (Grade A, chargeable area)",
+        "source_type": "broker_report",
+        "confidence": "M",
+        "as_of": "2026-10-21",
+        "note": "JLL: Hyderabad city average INR 76.3/sq ft/month Q2 2026; HITEC City rents up 15.9% y/y with lower vacancy expected. Micro-market level is an estimate above the city average.",
+        "sources": [
+          "S01"
+        ]
+      },
+      "fitout_capex_psf_inr": {
+        "low": 1800,
+        "base": 2500,
+        "high": 3200,
+        "unit": "INR per sq ft (warm-shell to fully fitted)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Same across micro-markets in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lockin_months": {
+        "low": 24,
+        "base": 36,
+        "high": 60,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "security_deposit_months_rent": {
+        "low": 3,
+        "base": 6,
+        "high": 9,
+        "unit": "months of rent (cash line, not TCO)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "vacancy_pct": {
+        "low": 6,
+        "base": 9,
+        "high": 12,
+        "unit": "percent of Grade A stock",
+        "source_type": "broker_report",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Direction supported by JLL commentary where sources listed; level is an estimate",
+        "sources": [
+          "S01"
+        ]
+      },
+      "space_lead_flex_months": {
+        "low": 0.75,
+        "base": 1.5,
+        "high": 3.0,
+        "unit": "months to move-in",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_traditional_months": {
+        "low": 5,
+        "base": 8,
+        "high": 11,
+        "unit": "months incl. negotiation and fit-out",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "talent_reach_index": {
+        "value": 5,
+        "scale": "1-5",
+        "rationale": "Core of west Hyderabad where most tech talent lives; best access",
+        "confidence": "L",
+        "source_type": "analyst_estimate",
+        "as_of": "2026-10-21",
+        "rubric": "5 = most target talent within ~45 min; 3 = roughly half; 1 = few. Hand-scored; replace with commute-isochrone data in V2."
+      },
+      "anchors": [
+        {
+          "name": "Novartis",
+          "sector": "Pharma",
+          "domains": [
+            "genai_ds",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 6000,
+            "base": 8000,
+            "high": 10000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Qualcomm",
+          "sector": "Semiconductors",
+          "domains": [
+            "genai_ds",
+            "cloud_fullstack"
+          ],
+          "headcount_est": {
+            "low": 5000,
+            "base": 7000,
+            "high": 9000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "JPMorgan Chase",
+          "sector": "BFSI",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys",
+            "genai_ds"
+          ],
+          "headcount_est": {
+            "low": 6000,
+            "base": 8000,
+            "high": 10000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        }
+      ]
+    },
+    {
+      "id": "hyd_fd",
+      "name": "Financial District / Gachibowli",
+      "city": "hyd",
+      "flex_cost_per_desk_month_inr": {
+        "low": 10600.0,
+        "base": 12500,
+        "high": 14400.0,
+        "unit": "INR per desk per month (managed, plug-and-play)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Anchored to ~INR 15,000/seat Bengaluru mid-market (operator blog, low reliability); other micro-markets scaled by analyst judgment",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lease_rate_psf_month_inr": {
+        "low": 70,
+        "base": 78,
+        "high": 87,
+        "unit": "INR per sq ft per month (Grade A, chargeable area)",
+        "source_type": "broker_report",
+        "confidence": "M",
+        "as_of": "2026-10-21",
+        "note": "JLL flags oversupply risk in Gachibowli (most pipeline supply there); vacancy estimate reflects that. Rent near city average.",
+        "sources": [
+          "S01"
+        ]
+      },
+      "fitout_capex_psf_inr": {
+        "low": 1800,
+        "base": 2500,
+        "high": 3200,
+        "unit": "INR per sq ft (warm-shell to fully fitted)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Same across micro-markets in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lockin_months": {
+        "low": 24,
+        "base": 36,
+        "high": 60,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "security_deposit_months_rent": {
+        "low": 3,
+        "base": 6,
+        "high": 9,
+        "unit": "months of rent (cash line, not TCO)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "vacancy_pct": {
+        "low": 15,
+        "base": 18,
+        "high": 21,
+        "unit": "percent of Grade A stock",
+        "source_type": "broker_report",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Direction supported by JLL commentary where sources listed; level is an estimate",
+        "sources": [
+          "S01"
+        ]
+      },
+      "space_lead_flex_months": {
+        "low": 0.75,
+        "base": 1.5,
+        "high": 3.0,
+        "unit": "months to move-in",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_traditional_months": {
+        "low": 5,
+        "base": 8,
+        "high": 11,
+        "unit": "months incl. negotiation and fit-out",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "talent_reach_index": {
+        "value": 4,
+        "scale": "1-5",
+        "rationale": "Strong access to west and south-west Hyderabad residential belts",
+        "confidence": "L",
+        "source_type": "analyst_estimate",
+        "as_of": "2026-10-21",
+        "rubric": "5 = most target talent within ~45 min; 3 = roughly half; 1 = few. Hand-scored; replace with commute-isochrone data in V2."
+      },
+      "anchors": [
+        {
+          "name": "Microsoft",
+          "sector": "Technology",
+          "domains": [
+            "cloud_fullstack",
+            "genai_ds",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 6000,
+            "base": 8500,
+            "high": 11000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Micron",
+          "sector": "Semiconductors",
+          "domains": [
+            "cloud_fullstack",
+            "genai_ds"
+          ],
+          "headcount_est": {
+            "low": 2500,
+            "base": 3500,
+            "high": 5000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Bank of America",
+          "sector": "BFSI",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 4500,
+            "base": 6500,
+            "high": 8500,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        }
+      ]
+    },
+    {
+      "id": "hyd_kokapet",
+      "name": "Kokapet / Neopolis",
+      "city": "hyd",
+      "flex_cost_per_desk_month_inr": {
+        "low": 9800.0,
+        "base": 11500,
+        "high": 13200.0,
+        "unit": "INR per desk per month (managed, plug-and-play)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Anchored to ~INR 15,000/seat Bengaluru mid-market (operator blog, low reliability); other micro-markets scaled by analyst judgment",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lease_rate_psf_month_inr": {
+        "low": 63,
+        "base": 70,
+        "high": 78,
+        "unit": "INR per sq ft per month (Grade A, chargeable area)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Newer micro-market, estimated below city average with high vacancy from new supply. Replaces Madhapur (approved spec decision).",
+        "sources": [
+          "S01"
+        ]
+      },
+      "fitout_capex_psf_inr": {
+        "low": 1800,
+        "base": 2500,
+        "high": 3200,
+        "unit": "INR per sq ft (warm-shell to fully fitted)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Same across micro-markets in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lockin_months": {
+        "low": 24,
+        "base": 36,
+        "high": 60,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "security_deposit_months_rent": {
+        "low": 3,
+        "base": 6,
+        "high": 9,
+        "unit": "months of rent (cash line, not TCO)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "vacancy_pct": {
+        "low": 19,
+        "base": 22,
+        "high": 25,
+        "unit": "percent of Grade A stock",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Direction supported by JLL commentary where sources listed; level is an estimate",
+        "sources": [
+          "S01"
+        ]
+      },
+      "space_lead_flex_months": {
+        "low": 0.75,
+        "base": 1.5,
+        "high": 3.0,
+        "unit": "months to move-in",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_traditional_months": {
+        "low": 5,
+        "base": 9,
+        "high": 13,
+        "unit": "months incl. negotiation and fit-out",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "talent_reach_index": {
+        "value": 3,
+        "scale": "1-5",
+        "rationale": "Newer western corridor; commute improving but further from established residential clusters",
+        "confidence": "L",
+        "source_type": "analyst_estimate",
+        "as_of": "2026-10-21",
+        "rubric": "5 = most target talent within ~45 min; 3 = roughly half; 1 = few. Hand-scored; replace with commute-isochrone data in V2."
+      },
+      "anchors": [
+        {
+          "name": "Amazon (campus under development)",
+          "sector": "Retail / cloud",
+          "domains": [
+            "cloud_fullstack",
+            "genai_ds"
+          ],
+          "headcount_est": {
+            "low": 3000,
+            "base": 6000,
+            "high": 10000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Google (emerging presence)",
+          "sector": "Technology",
+          "domains": [
+            "cloud_fullstack",
+            "genai_ds"
+          ],
+          "headcount_est": {
+            "low": 1500,
+            "base": 3000,
+            "high": 5000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        }
+      ]
+    },
+    {
+      "id": "pune_kharadi",
+      "name": "Kharadi",
+      "city": "pune",
+      "flex_cost_per_desk_month_inr": {
+        "low": 10600.0,
+        "base": 12500,
+        "high": 14400.0,
+        "unit": "INR per desk per month (managed, plug-and-play)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Anchored to ~INR 15,000/seat Bengaluru mid-market (operator blog, low reliability); other micro-markets scaled by analyst judgment",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lease_rate_psf_month_inr": {
+        "low": 79,
+        "base": 88,
+        "high": 99,
+        "unit": "INR per sq ft per month (Grade A, chargeable area)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "No primary rent source retrieved for Pune.",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "fitout_capex_psf_inr": {
+        "low": 1800,
+        "base": 2500,
+        "high": 3200,
+        "unit": "INR per sq ft (warm-shell to fully fitted)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Same across micro-markets in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lockin_months": {
+        "low": 24,
+        "base": 36,
+        "high": 60,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "security_deposit_months_rent": {
+        "low": 3,
+        "base": 6,
+        "high": 9,
+        "unit": "months of rent (cash line, not TCO)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "vacancy_pct": {
+        "low": 8,
+        "base": 11,
+        "high": 14,
+        "unit": "percent of Grade A stock",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Direction supported by JLL commentary where sources listed; level is an estimate",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_flex_months": {
+        "low": 0.75,
+        "base": 1.5,
+        "high": 3.0,
+        "unit": "months to move-in",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_traditional_months": {
+        "low": 5,
+        "base": 8,
+        "high": 11,
+        "unit": "months incl. negotiation and fit-out",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "talent_reach_index": {
+        "value": 4,
+        "scale": "1-5",
+        "rationale": "East Pune residential catchment (Viman Nagar, Wagholi, Hadapsar) with decent access",
+        "confidence": "L",
+        "source_type": "analyst_estimate",
+        "as_of": "2026-10-21",
+        "rubric": "5 = most target talent within ~45 min; 3 = roughly half; 1 = few. Hand-scored; replace with commute-isochrone data in V2."
+      },
+      "anchors": [
+        {
+          "name": "Barclays",
+          "sector": "BFSI",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 5000,
+            "base": 7000,
+            "high": 9000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Fiserv",
+          "sector": "Fintech",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 3000,
+            "base": 4500,
+            "high": 6000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "UBS",
+          "sector": "BFSI",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 2500,
+            "base": 3500,
+            "high": 5000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        }
+      ]
+    },
+    {
+      "id": "pune_hinjewadi",
+      "name": "Hinjewadi",
+      "city": "pune",
+      "flex_cost_per_desk_month_inr": {
+        "low": 8900.0,
+        "base": 10500,
+        "high": 12100.0,
+        "unit": "INR per desk per month (managed, plug-and-play)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Anchored to ~INR 15,000/seat Bengaluru mid-market (operator blog, low reliability); other micro-markets scaled by analyst judgment",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lease_rate_psf_month_inr": {
+        "low": 61,
+        "base": 68,
+        "high": 76,
+        "unit": "INR per sq ft per month (Grade A, chargeable area)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "No primary rent source retrieved for Pune.",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "fitout_capex_psf_inr": {
+        "low": 1800,
+        "base": 2500,
+        "high": 3200,
+        "unit": "INR per sq ft (warm-shell to fully fitted)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Same across micro-markets in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lockin_months": {
+        "low": 24,
+        "base": 36,
+        "high": 60,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "security_deposit_months_rent": {
+        "low": 3,
+        "base": 6,
+        "high": 9,
+        "unit": "months of rent (cash line, not TCO)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "vacancy_pct": {
+        "low": 12,
+        "base": 15,
+        "high": 18,
+        "unit": "percent of Grade A stock",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Direction supported by JLL commentary where sources listed; level is an estimate",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_flex_months": {
+        "low": 0.75,
+        "base": 1.5,
+        "high": 3.0,
+        "unit": "months to move-in",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_traditional_months": {
+        "low": 5,
+        "base": 8,
+        "high": 11,
+        "unit": "months incl. negotiation and fit-out",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "talent_reach_index": {
+        "value": 3,
+        "scale": "1-5",
+        "rationale": "Large west-Pune residential base, but widely reported commute congestion",
+        "confidence": "L",
+        "source_type": "analyst_estimate",
+        "as_of": "2026-10-21",
+        "rubric": "5 = most target talent within ~45 min; 3 = roughly half; 1 = few. Hand-scored; replace with commute-isochrone data in V2."
+      },
+      "anchors": [
+        {
+          "name": "Eaton",
+          "sector": "Industrial",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 2000,
+            "base": 3000,
+            "high": 4500,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Bosch Global Software Technologies",
+          "sector": "Automotive / industrial",
+          "domains": [
+            "cloud_fullstack",
+            "genai_ds"
+          ],
+          "headcount_est": {
+            "low": 2000,
+            "base": 3000,
+            "high": 4500,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        }
+      ]
+    },
+    {
+      "id": "pune_magarpatta",
+      "name": "Magarpatta City",
+      "city": "pune",
+      "flex_cost_per_desk_month_inr": {
+        "low": 9800.0,
+        "base": 11500,
+        "high": 13200.0,
+        "unit": "INR per desk per month (managed, plug-and-play)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Anchored to ~INR 15,000/seat Bengaluru mid-market (operator blog, low reliability); other micro-markets scaled by analyst judgment",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lease_rate_psf_month_inr": {
+        "low": 74,
+        "base": 82,
+        "high": 92,
+        "unit": "INR per sq ft per month (Grade A, chargeable area)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "No primary rent source retrieved for Pune.",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "fitout_capex_psf_inr": {
+        "low": 1800,
+        "base": 2500,
+        "high": 3200,
+        "unit": "INR per sq ft (warm-shell to fully fitted)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Same across micro-markets in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lockin_months": {
+        "low": 24,
+        "base": 36,
+        "high": 60,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "security_deposit_months_rent": {
+        "low": 3,
+        "base": 6,
+        "high": 9,
+        "unit": "months of rent (cash line, not TCO)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "vacancy_pct": {
+        "low": 9,
+        "base": 12,
+        "high": 15,
+        "unit": "percent of Grade A stock",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Direction supported by JLL commentary where sources listed; level is an estimate",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_flex_months": {
+        "low": 0.75,
+        "base": 1.5,
+        "high": 3.0,
+        "unit": "months to move-in",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_traditional_months": {
+        "low": 5,
+        "base": 8,
+        "high": 11,
+        "unit": "months incl. negotiation and fit-out",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "talent_reach_index": {
+        "value": 4,
+        "scale": "1-5",
+        "rationale": "Central-east location with integrated township; good cross-city access",
+        "confidence": "L",
+        "source_type": "analyst_estimate",
+        "as_of": "2026-10-21",
+        "rubric": "5 = most target talent within ~45 min; 3 = roughly half; 1 = few. Hand-scored; replace with commute-isochrone data in V2."
+      },
+      "anchors": [
+        {
+          "name": "John Deere",
+          "sector": "Agri-machinery",
+          "domains": [
+            "cloud_fullstack",
+            "genai_ds"
+          ],
+          "headcount_est": {
+            "low": 2500,
+            "base": 3500,
+            "high": 5000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Mastercard",
+          "sector": "Fintech",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 2000,
+            "base": 3000,
+            "high": 4500,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        }
+      ]
+    },
+    {
+      "id": "chn_omr",
+      "name": "Old Mahabalipuram Road (OMR) IT corridor",
+      "city": "chn",
+      "flex_cost_per_desk_month_inr": {
+        "low": 8900.0,
+        "base": 10500,
+        "high": 12100.0,
+        "unit": "INR per desk per month (managed, plug-and-play)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Anchored to ~INR 15,000/seat Bengaluru mid-market (operator blog, low reliability); other micro-markets scaled by analyst judgment",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lease_rate_psf_month_inr": {
+        "low": 61,
+        "base": 68,
+        "high": 76,
+        "unit": "INR per sq ft per month (Grade A, chargeable area)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Stub. Chennai rentals reported soft in 2025; estimate only.",
+        "sources": [
+          "S15"
+        ]
+      },
+      "fitout_capex_psf_inr": {
+        "low": 1800,
+        "base": 2500,
+        "high": 3200,
+        "unit": "INR per sq ft (warm-shell to fully fitted)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Same across micro-markets in v1",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "lockin_months": {
+        "low": 24,
+        "base": 36,
+        "high": 60,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "security_deposit_months_rent": {
+        "low": 3,
+        "base": 6,
+        "high": 9,
+        "unit": "months of rent (cash line, not TCO)",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "vacancy_pct": {
+        "low": 10,
+        "base": 13,
+        "high": 16,
+        "unit": "percent of Grade A stock",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "note": "Direction supported by JLL commentary where sources listed; level is an estimate",
+        "sources": [
+          "S15"
+        ]
+      },
+      "space_lead_flex_months": {
+        "low": 0.75,
+        "base": 1.5,
+        "high": 3.0,
+        "unit": "months to move-in",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "space_lead_traditional_months": {
+        "low": 5,
+        "base": 8,
+        "high": 11,
+        "unit": "months incl. negotiation and fit-out",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "talent_reach_index": {
+        "value": 4,
+        "scale": "1-5",
+        "rationale": "Continuous IT corridor with residential along it; limited reach to north Chennai",
+        "confidence": "L",
+        "source_type": "analyst_estimate",
+        "as_of": "2026-10-21",
+        "rubric": "5 = most target talent within ~45 min; 3 = roughly half; 1 = few. Hand-scored; replace with commute-isochrone data in V2."
+      },
+      "anchors": [
+        {
+          "name": "Ford (Global Business Services)",
+          "sector": "Automotive",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 3500,
+            "base": 5000,
+            "high": 6500,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        },
+        {
+          "name": "Citi",
+          "sector": "BFSI",
+          "domains": [
+            "cloud_fullstack",
+            "enterprise_sys"
+          ],
+          "headcount_est": {
+            "low": 3500,
+            "base": 5000,
+            "high": 7000,
+            "unit": "employees in India (whole-company estimate, not micro-market only)",
+            "source_type": "analyst_estimate",
+            "confidence": "L",
+            "as_of": "2026-10-21",
+            "sources": [
+              "ANALYST"
+            ]
+          },
+          "placement_confidence": "L",
+          "note": "Micro-market placement and headcount are unverified; check against MCA filings and press before external use"
+        }
+      ]
+    }
+  ],
+  "incentives": [
+    {
+      "id": "KA-CAPEX-BLR",
+      "state": "KA",
+      "policy": "Karnataka GCC Policy 2024-29",
+      "benefit_type": "capex_support_innovation_lab",
+      "applies_to": [
+        "blr_orr",
+        "blr_whitefield",
+        "blr_manyata"
+      ],
+      "eligibility": {
+        "workspace_models": [
+          "traditional"
+        ],
+        "requires_own_entity": true,
+        "requires_own_payroll": false,
+        "min_jobs": null,
+        "domains": "all"
+      },
+      "value_model": {
+        "type": "pct_of_basis",
+        "basis": "fitout_capex",
+        "rate": {
+          "low": 0.4,
+          "base": 0.4,
+          "high": 0.4,
+          "unit": "fraction (statutory maximum)",
+          "source_type": "advisor_summary",
+          "confidence": "M",
+          "as_of": "2026-10-21",
+          "sources": [
+            "S05"
+          ]
+        },
+        "qualifying_share": {
+          "low": 0.1,
+          "base": 0.2,
+          "high": 0.35,
+          "unit": "share of fit-out capex that is eligible innovation-lab / technology-centre spend",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "cap_inr_crore": 5.0
+      },
+      "lag_months": {
+        "low": 12,
+        "base": 18,
+        "high": 30,
+        "unit": "months from spend to receipt",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "claim_probability": {
+        "low": 0.25,
+        "base": 0.45,
+        "high": 0.65,
+        "unit": "probability",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "2029 (policy period 2024-29; exact end date to verify)",
+      "exclusive_group": null,
+      "quantified": true,
+      "confidence": "M",
+      "sources": [
+        "S05",
+        "S06"
+      ],
+      "as_of": "2024-11-19",
+      "notes": "Applies to innovation labs and technology centres, not all capex. Bengaluru Urban rate is 40% with INR 5 crore cap."
+    },
+    {
+      "id": "KA-SKILL",
+      "state": "KA",
+      "policy": "Karnataka GCC Policy 2024-29",
+      "benefit_type": "skilling_refund",
+      "applies_to": [
+        "blr_orr",
+        "blr_whitefield",
+        "blr_manyata"
+      ],
+      "eligibility": {
+        "workspace_models": [
+          "flex",
+          "traditional"
+        ],
+        "requires_own_entity": true,
+        "requires_own_payroll": true,
+        "min_jobs": null,
+        "domains": "all"
+      },
+      "value_model": {
+        "type": "pct_of_basis",
+        "basis": "training_spend",
+        "rate": {
+          "low": 0.2,
+          "base": 0.2,
+          "high": 0.2,
+          "unit": "fraction",
+          "source_type": "professional_body_summary",
+          "confidence": "M",
+          "as_of": "2026-10-21",
+          "sources": [
+            "S06"
+          ]
+        },
+        "qualifying_share": {
+          "low": 0.5,
+          "base": 0.7,
+          "high": 0.9,
+          "unit": "share of training spend that qualifies",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "ANALYST"
+          ]
+        },
+        "cap_inr_crore": null
+      },
+      "lag_months": {
+        "low": 9,
+        "base": 12,
+        "high": 18,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "claim_probability": {
+        "low": 0.4,
+        "base": 0.6,
+        "high": 0.8,
+        "unit": "probability",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "2029 (to verify)",
+      "exclusive_group": null,
+      "quantified": true,
+      "confidence": "M",
+      "sources": [
+        "S06"
+      ],
+      "as_of": "2026-10-21",
+      "notes": "Cap not found in retrieved sources. Small value; shown mainly to demonstrate own-payroll dependency."
+    },
+    {
+      "id": "KA-BB-RENT",
+      "state": "KA",
+      "policy": "Karnataka GCC Policy 2024-29 (Beyond Bengaluru)",
+      "benefit_type": "rental_reimbursement",
+      "applies_to": [],
+      "eligibility": {
+        "zone": "beyond_bengaluru",
+        "min_jobs": null
+      },
+      "value_model": {
+        "type": "pct_of_basis",
+        "basis": "rent",
+        "rate": {
+          "low": 0.5,
+          "base": 0.5,
+          "high": 0.5,
+          "unit": "fraction",
+          "source_type": "professional_body_summary",
+          "confidence": "M",
+          "as_of": "2026-10-21",
+          "sources": [
+            "S06"
+          ]
+        },
+        "cap_inr_crore": 2.0
+      },
+      "lag_months": {
+        "low": 6,
+        "base": 12,
+        "high": 18,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "claim_probability": {
+        "low": 0.4,
+        "base": 0.6,
+        "high": 0.8,
+        "unit": "probability",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "2029 (to verify)",
+      "exclusive_group": null,
+      "quantified": true,
+      "confidence": "M",
+      "sources": [
+        "S06",
+        "S05"
+      ],
+      "as_of": "2024-11-19",
+      "applies_in_current_dataset": false,
+      "notes": "No micro-market in this dataset is in Karnataka outside Bengaluru. Kept so the zone-exclusion logic is testable: Bengaluru micro-markets must NOT receive this."
+    },
+    {
+      "id": "KA-BB-EPF",
+      "state": "KA",
+      "policy": "Karnataka GCC Policy 2024-29 (Beyond Bengaluru)",
+      "benefit_type": "epf_reimbursement",
+      "applies_to": [],
+      "eligibility": {
+        "zone": "beyond_bengaluru",
+        "requires_own_payroll": true,
+        "requires_own_entity": true
+      },
+      "value_model": {
+        "type": "fixed_per_head",
+        "amount_inr": 3000,
+        "period": "per employee, for two years (per-month vs per-year basis to verify in gazette)",
+        "duration_years": 2
+      },
+      "lag_months": {
+        "low": 6,
+        "base": 12,
+        "high": 18,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "claim_probability": {
+        "low": 0.4,
+        "base": 0.6,
+        "high": 0.8,
+        "unit": "probability",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "2029 (to verify)",
+      "exclusive_group": null,
+      "quantified": false,
+      "confidence": "L",
+      "sources": [
+        "S06"
+      ],
+      "as_of": "2024-11-19",
+      "applies_in_current_dataset": false,
+      "notes": "Basis unclear in summaries, so left unquantified."
+    },
+    {
+      "id": "TG-ICT-2021-26",
+      "state": "TG",
+      "policy": "Telangana ICT Policy 2021-2026",
+      "benefit_type": "various (stamp duty, power, recruitment, etc.)",
+      "applies_to": [
+        "hyd_hitec",
+        "hyd_fd",
+        "hyd_kokapet"
+      ],
+      "eligibility": {
+        "requires_own_entity": true
+      },
+      "value_model": {
+        "type": "unquantified"
+      },
+      "lag_months": null,
+      "claim_probability": {
+        "low": 0.1,
+        "base": 0.3,
+        "high": 0.5,
+        "unit": "probability that any benefit is claimable for a 2027 start",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "2026 (policy period ends; successor status unclear)",
+      "exclusive_group": null,
+      "quantified": false,
+      "confidence": "L",
+      "sources": [
+        "S06",
+        "S13",
+        "S11"
+      ],
+      "as_of": "2026-10-21",
+      "notes": "Policy window is ending. Not quantified in v1 so Hyderabad gets no modelled subsidy; flagged as policy-gap risk."
+    },
+    {
+      "id": "TG-GCC-POLICY",
+      "state": "TG",
+      "policy": "Telangana GCC-specific policy (status disputed)",
+      "benefit_type": "targeted incentives for frontier-tech GCCs",
+      "applies_to": [
+        "hyd_hitec",
+        "hyd_fd",
+        "hyd_kokapet"
+      ],
+      "eligibility": {
+        "requires_own_entity": true
+      },
+      "value_model": {
+        "type": "unquantified"
+      },
+      "lag_months": null,
+      "claim_probability": {
+        "low": 0.05,
+        "base": 0.2,
+        "high": 0.4,
+        "unit": "probability",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "unknown",
+      "exclusive_group": null,
+      "quantified": false,
+      "confidence": "L",
+      "sources": [
+        "S11",
+        "S12"
+      ],
+      "as_of": "2026-10-21",
+      "source_conflict": {
+        "claim_a": "A 2026 press report says a GCC-specific policy is still being drafted, targeting AI, space, semiconductors and advanced life sciences rather than blanket subsidies (S11)",
+        "claim_b": "A vendor guide describes a 'Telangana GCC Policy 2025-2030' with capital subsidies, stamp duty reimbursement and electricity duty exemption (S12)",
+        "handling": "Treated as not yet reliable. Resolve against the official gazette before quantifying."
+      },
+      "notes": "This is a live example of the conflicting-sources problem VISOR is meant to surface."
+    },
+    {
+      "id": "MH-CAPITAL",
+      "state": "MH",
+      "policy": "Maharashtra GCC Policy 2025",
+      "benefit_type": "capital_subsidy",
+      "applies_to": [
+        "pune_kharadi",
+        "pune_hinjewadi",
+        "pune_magarpatta"
+      ],
+      "eligibility": {
+        "workspace_models": [
+          "traditional"
+        ],
+        "requires_own_entity": true,
+        "requires_own_payroll": false,
+        "min_jobs": null,
+        "domains": "all",
+        "zone": "Zone I (Pune Metropolitan Region)"
+      },
+      "value_model": {
+        "type": "pct_of_basis",
+        "basis": "fitout_capex",
+        "rate": {
+          "low": 0.2,
+          "base": 0.2,
+          "high": 0.2,
+          "unit": "fraction (maximum)",
+          "source_type": "advisor_summary",
+          "confidence": "M",
+          "as_of": "2026-10-21",
+          "sources": [
+            "S08",
+            "S09"
+          ]
+        },
+        "qualifying_share": {
+          "low": 0.1,
+          "base": 0.25,
+          "high": 0.4,
+          "unit": "share of fit-out capex that is plant and machinery (policy covers P&M only)",
+          "source_type": "analyst_estimate",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "S09",
+            "ANALYST"
+          ]
+        },
+        "cap_inr_crore": null,
+        "cap_note": "Cap depends on GCC size classification (Small to Ultra Mega); amounts not captured in v1",
+        "installments": 5
+      },
+      "lag_months": {
+        "low": 12,
+        "base": 18,
+        "high": 30,
+        "unit": "months to first instalment",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "claim_probability": {
+        "low": 0.25,
+        "base": 0.45,
+        "high": 0.65,
+        "unit": "probability",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "FY2029-30",
+      "exclusive_group": "MH-CAPITAL-OR-RENTAL",
+      "quantified": true,
+      "confidence": "M",
+      "sources": [
+        "S08",
+        "S09",
+        "S10"
+      ],
+      "as_of": "2025-11-03",
+      "notes": "Paid in 5 equal instalments. Mutually exclusive with rental assistance."
+    },
+    {
+      "id": "MH-RENTAL",
+      "state": "MH",
+      "policy": "Maharashtra GCC Policy 2025",
+      "benefit_type": "rental_assistance",
+      "applies_to": [
+        "pune_kharadi",
+        "pune_hinjewadi",
+        "pune_magarpatta"
+      ],
+      "eligibility": {
+        "workspace_models": [
+          "traditional"
+        ],
+        "requires_own_entity": true,
+        "requires_own_payroll": false,
+        "zone": "Zone I (Pune Metropolitan Region)"
+      },
+      "value_model": {
+        "type": "pct_of_basis",
+        "basis": "rent",
+        "rate": {
+          "low": 0.1,
+          "base": 0.15,
+          "high": 0.2,
+          "unit": "fraction of actual rent (10% to 20% by classification)",
+          "source_type": "advisor_summary",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "S08",
+            "S09"
+          ]
+        },
+        "cap_inr_crore": null,
+        "duration_years": 5
+      },
+      "lag_months": {
+        "low": 6,
+        "base": 12,
+        "high": 18,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "claim_probability": {
+        "low": 0.3,
+        "base": 0.5,
+        "high": 0.7,
+        "unit": "probability",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "FY2029-30",
+      "exclusive_group": "MH-CAPITAL-OR-RENTAL",
+      "quantified": true,
+      "confidence": "L",
+      "sources": [
+        "S08",
+        "S09"
+      ],
+      "as_of": "2025-11-03",
+      "notes": "Eligibility under flex/managed space not confirmed, so modelled for traditional leases only (conservative)."
+    },
+    {
+      "id": "MH-PAYROLL",
+      "state": "MH",
+      "policy": "Maharashtra GCC Policy 2025",
+      "benefit_type": "payroll_subsidy",
+      "applies_to": [
+        "pune_kharadi",
+        "pune_hinjewadi",
+        "pune_magarpatta"
+      ],
+      "eligibility": {
+        "workspace_models": [
+          "flex",
+          "traditional"
+        ],
+        "requires_own_entity": true,
+        "requires_own_payroll": true,
+        "domains": "all",
+        "zone": "Zone I (Pune Metropolitan Region)",
+        "min_jobs": null
+      },
+      "value_model": {
+        "type": "pct_above_threshold",
+        "rate": {
+          "low": 0.4,
+          "base": 0.4,
+          "high": 0.5,
+          "unit": "fraction of monthly salary above threshold (40% vs 50% by zone or class; which applies to Pune to verify)",
+          "source_type": "advisor_summary",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "S09"
+          ]
+        },
+        "threshold_inr_per_month": 100000,
+        "cap_inr_crore_per_year": 5.0,
+        "duration_years": null,
+        "duration_note": "Duration not retrieved; modelled across the 36-month horizon"
+      },
+      "lag_months": {
+        "low": 12,
+        "base": 15,
+        "high": 24,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "claim_probability": {
+        "low": 0.3,
+        "base": 0.5,
+        "high": 0.7,
+        "unit": "probability",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "FY2029-30",
+      "exclusive_group": null,
+      "quantified": true,
+      "confidence": "L",
+      "sources": [
+        "S08",
+        "S09",
+        "S10",
+        "S06"
+      ],
+      "as_of": "2025-11-03",
+      "source_conflict": {
+        "claim_a": "Summaries (S09, S10, S08) describe a subsidy on salary above INR 1 lakh per month, capped at INR 5 crore per year per unit",
+        "claim_b": "ICAI summary (S06) describes 'up to INR 50,000 per employee per month'",
+        "handling": "Modelled as claim_a with a low claim probability. This is the single largest incentive in the dataset and the first to verify against the gazette."
+      },
+      "notes": "Largest modelled incentive. Cap binds quickly (INR 5 crore a year is reached at roughly 55-110 mid/senior hires). Requires employees on own payroll, so lost under EOR."
+    },
+    {
+      "id": "MH-POWER",
+      "state": "MH",
+      "policy": "Maharashtra GCC Policy 2025",
+      "benefit_type": "power_tariff_subsidy",
+      "applies_to": [
+        "pune_kharadi",
+        "pune_hinjewadi",
+        "pune_magarpatta"
+      ],
+      "eligibility": {
+        "workspace_models": [
+          "traditional"
+        ],
+        "requires_own_entity": true,
+        "requires_own_payroll": false,
+        "requires_direct_power_contract": true
+      },
+      "value_model": {
+        "type": "fixed_annual",
+        "amount_inr_crore": {
+          "low": 0.0,
+          "base": 0.1,
+          "high": 0.2,
+          "unit": "INR crore per year (cap INR 20 lakh per unit)",
+          "source_type": "advisor_summary",
+          "confidence": "L",
+          "as_of": "2026-10-21",
+          "sources": [
+            "S08"
+          ]
+        }
+      },
+      "lag_months": {
+        "low": 6,
+        "base": 12,
+        "high": 18,
+        "unit": "months",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "claim_probability": {
+        "low": 0.3,
+        "base": 0.5,
+        "high": 0.7,
+        "unit": "probability",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "FY2029-30",
+      "exclusive_group": null,
+      "quantified": true,
+      "confidence": "L",
+      "sources": [
+        "S08"
+      ],
+      "as_of": "2025-11-03",
+      "notes": "Only the cap (INR 20 lakh per unit per year) was found; base value is an analyst assumption. Not claimable in managed space where the operator holds the power contract."
+    },
+    {
+      "id": "MH-STAMP-PROPTAX",
+      "state": "MH",
+      "policy": "Maharashtra GCC Policy 2025",
+      "benefit_type": "stamp_duty_and_property_tax_exemption",
+      "applies_to": [
+        "pune_kharadi",
+        "pune_hinjewadi",
+        "pune_magarpatta"
+      ],
+      "eligibility": {
+        "workspace_models": [
+          "traditional"
+        ]
+      },
+      "value_model": {
+        "type": "unquantified"
+      },
+      "lag_months": null,
+      "claim_probability": {
+        "low": 0.3,
+        "base": 0.5,
+        "high": 0.7,
+        "unit": "probability",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "FY2029-30",
+      "exclusive_group": null,
+      "quantified": false,
+      "confidence": "L",
+      "sources": [
+        "S10"
+      ],
+      "as_of": "2025-11-03",
+      "notes": "Mentioned in a legal summary; scope unclear. Not quantified."
+    },
+    {
+      "id": "TN-PAYROLL",
+      "state": "TN",
+      "policy": "Tamil Nadu GCC Policy 2024-27 (payroll subsidy for new GCCs)",
+      "benefit_type": "payroll_subsidy",
+      "applies_to": [
+        "chn_omr"
+      ],
+      "eligibility": {
+        "requires_own_entity": true,
+        "requires_own_payroll": true
+      },
+      "value_model": {
+        "type": "unquantified"
+      },
+      "lag_months": null,
+      "claim_probability": {
+        "low": 0.3,
+        "base": 0.5,
+        "high": 0.7,
+        "unit": "probability",
+        "source_type": "analyst_estimate",
+        "confidence": "L",
+        "as_of": "2026-10-21",
+        "sources": [
+          "ANALYST"
+        ]
+      },
+      "valid_until": "2027 (policy period 2024-27; successor unknown)",
+      "exclusive_group": null,
+      "quantified": false,
+      "confidence": "L",
+      "sources": [
+        "S14",
+        "S15"
+      ],
+      "as_of": "2026-10-21",
+      "notes": "Sources confirm a payroll subsidy programme exists but amounts were not found. Short policy runway."
+    }
+  ],
+  "non_fiscal_incentives": [
+    {
+      "id": "TN-GCC-ONE",
+      "state": "TN",
+      "description": "GCC One single-window clearance system",
+      "source": "S14",
+      "feeds": "execution_ease.single_window"
+    },
+    {
+      "id": "MH-FACILITATION",
+      "state": "MH",
+      "description": "GCC Facilitation Cell, 24x7 operations approval, additional FSI",
+      "source": "S09",
+      "feeds": "execution_ease.approval_speed"
+    }
+  ]
+}
