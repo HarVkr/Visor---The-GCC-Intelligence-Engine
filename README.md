@@ -19,6 +19,8 @@ Setting up an Indian GCC (Global Capability Centre) historically required months
 3. **Legal Novation Threshold ($H^*$)**: Algorithmically calculates the exact headcount and cutover month where the ongoing margin drag of Employer of Record (EOR) hiring exceeds the fixed regulatory cost of maintaining a private limited captive entity.
 4. **Resilience & Sensitivity Analysis**: Scans 25 independent levers (salary premiums, attrition drags, headcount ramps) to identify the exact tipping points at which secondary contenders overtake the primary recommendation.
 
+**To view and understand how the final output looks like, please refer to the data flow and architecture file: [visor_data_flow_and_architecture.md](visor_data_flow_and_architecture.md)**
+
 ---
 
 ## 2. System Architecture & Data Flow
